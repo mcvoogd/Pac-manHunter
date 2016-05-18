@@ -1,0 +1,25 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# IntelliJ personal stuff, I don't want those
+.idea/
+*.iml
+
+# Eclipse personal stuff, Thijs, keep your crap out of here
+.classpath
+.project
+
+# Package Files #
+# But exclude the fucking .jar cuz we need it
+#*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+Suporting Documents/software models/.vpprefdata/
+Suporting Documents/software models/.lock
+Suporting Documents/software models/tmp/
+/bin/
