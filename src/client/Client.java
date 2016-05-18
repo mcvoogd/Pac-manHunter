@@ -53,7 +53,9 @@ public class Client extends Canvas{
 
     public int fromServer(){
         try {
-            return fromServer.read();
+            if(fromServer.available() > 0){
+                return fromServer.read();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

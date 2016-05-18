@@ -9,7 +9,6 @@ import javax.swing.*;
 public class Server extends JFrame {
     // Text area for displaying contents
     private JTextArea jta = new JTextArea();
-    private static DataOutputStream outputToClient1, outputToClient2;
 
     public static void main(String[] args) {
         new Server();
@@ -51,24 +50,14 @@ public class Server extends JFrame {
                         + inetAddress.getHostAddress() + "\n");
 
                 // Create a new thread for the connection
-                DataInputStream inputFromClient1 = new DataInputStream(
-                        socket.getInputStream());
-                outputToClient1 = new DataOutputStream(
-                        socket.getOutputStream());
-                DataInputStream inputFromClient2 = new DataInputStream(
-                        socket2.getInputStream());
-                outputToClient2 = new DataOutputStream(
-                        socket2.getOutputStream());
-                HandleAClient task = new HandleAClient(inputFromClient1, clientNo);
-                clientNo++;
-                HandleAClient task2 = new HandleAClient(inputFromClient2, clientNo);
+
+                HandleAClient task = new HandleAClient(socket, socket2);
 
                 // Start the new thread
                 new Thread(task).start();
-                new Thread(task2).start();
 
                 // Increment clientNo
-
+                clientNo++;
 
 
             }
@@ -77,62 +66,64 @@ public class Server extends JFrame {
         }
     }
 
-    public static synchronized void update(int x, int y, int clientNo)
-    {
-        if(clientNo == 1){
-            try {
-                outputToClient2.write(x);
-                outputToClient2.write(y);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else if(clientNo == 2){
-            try {
-                outputToClient1.write(x);
-                outputToClient1.write(y);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
 
     // Inner class
     // Define the thread class for handling new connection
     class HandleAClient implements Runnable {
-        private DataInputStream inputFromClient;
-        private int clientNo;
+        private Socket socket1, socket2;
 
         /** Construct a thread */
-        public HandleAClient(DataInputStream inputFromClient, int clientNo) {
+        public HandleAClient(Socket socket1, Socket socket2) {
 
-            this.inputFromClient = inputFromClient;
-            this.clientNo = clientNo;
+            this.socket1 = socket1;
+            this.socket2 = socket2;
         }
 
         /** Run a thread */
         public void run() {
             try {
                 // Create data input and output streams
+                DataInputStream inputFromClient1 = new DataInputStream(
+                        socket1.getInputStream());
+                DataOutputStream outputToClient1 = new DataOutputStream(
+                        socket1.getOutputStream());
+                DataInputStream inputFromClient2 = new DataInputStream(
+                        socket2.getInputStream());
+                DataOutputStream outputToClient2 = new DataOutputStream(
+                        socket2.getOutputStream());
 
-
-
+                int oldx1 = 0;
+                int oldy1 = 0;
+                int oldx2 = 0;
+                int oldy2 = 0;
                 // Continuously serve the client
                 while (true) {
                     // Receive radius from the client
 //                    double radius = inputFromClient.readDouble();
 
-                    int x = inputFromClient.read();
-                    int y = inputFromClient.read();
+                    if(inputFromClient1.available() > 0) {
+                        int x1 = inputFromClient1.read();
+                        int y1 = inputFromClient1.read();
+                        if((x1!=oldx1) || (y1 != oldy1)){
+                            outputToClient2.write(x1);
+                            outputToClient2.write(y1);
+                        }
+                        oldx1=x1;
+                        oldy1=y1;
+                    }
 
-                    Server.update(x, y, clientNo);
-//
-//                    outputToClient1.write(y2);
-//                    outputToClient1.write(x2);
-//
-//                    outputToClient2.write(y1);
-//                    outputToClient2.write(x1);
+                    if(inputFromClient2.available() > 0) {
+                        int x2 = inputFromClient2.read();
+                        int y2 = inputFromClient2.read();
+                        if((x2!=oldx2) || (y2 != oldy2)){
+                            outputToClient1.write(x2);
+                            outputToClient1.write(y2);
+                        }
+                        oldx2=x2;
+                        oldy2=y2;
+                    }
+
+
 
 
                     // Compute area

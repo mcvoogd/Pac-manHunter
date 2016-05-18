@@ -1,14 +1,11 @@
 package client;
 
-import javafx.scene.input.KeyCode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
 public class Panel extends JPanel implements ActionListener, KeyListener{
 
@@ -16,6 +13,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     Character player2;
     Timer timer;
     Client client;
+    private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0;
 
     public Panel(Client client){
         character = new Character();
@@ -43,8 +41,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
 //        client.toServer(character.getX());
 //        client.toServer(character.getY());
         repaint();
-        int xPlayer2 = client.fromServer();
-        int yPlayer2 = client.fromServer();
+        xPlayer2Server = client.fromServer();
+        yPlayer2Server = client.fromServer();
+        if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
+        if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
         player2.setLocation(xPlayer2, yPlayer2);
     }
 
