@@ -34,6 +34,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         Graphics2D g2d = (Graphics2D) g;
         character.render(g2d);
         player2.render(g2d);
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
+        g2d.drawString("Coordinates: " + xPlayer2 + " : " + yPlayer2, 0, 40);
     }
 
     @Override
