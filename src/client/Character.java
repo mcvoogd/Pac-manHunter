@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class Character{
 
-    private int x, y, width = 10, height = 10;
+    private int x, y, width = 32, height = 32;
     private int speed = 2;
     private Color color = new Color(136, 42, 29);
 

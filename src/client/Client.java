@@ -1,5 +1,7 @@
 package client;
 
+import util.Images;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.DataInputStream;
@@ -19,7 +21,7 @@ public class Client extends Canvas{
     }
 
     public Client(){
-
+        new Images();
         try {
             Socket socket = new Socket("localhost", 8000);
 

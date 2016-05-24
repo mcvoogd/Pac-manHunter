@@ -13,6 +13,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     Character player2;
     Timer timer;
     Client client;
+    private Map map;
     private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0;
 
     public Panel(Client client){
@@ -26,12 +27,14 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         requestFocus();
         client.toServer(character.getX());
         client.toServer(character.getY());
+        map = new Map();
         timer.start();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        map.draw(g2d);
         character.render(g2d);
         player2.render(g2d);
         g2d.setColor(Color.BLACK);
