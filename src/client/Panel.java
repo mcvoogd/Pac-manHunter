@@ -17,17 +17,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0;
 
     public Panel(Client client){
-        character = new Character();
-        player2 = new Character();
+        character = new Character(32, 32, 32, 32);
+        player2 = new Character(32, 32, 32, 32);
         player2.setColor(Color.RED);
         timer = new Timer(1000/60, this);
         this.client = client;
         addKeyListener(this);
         setFocusable(true);
         requestFocus();
-        client.toServer(character.getX());
-        client.toServer(character.getY());
+        client.toServer((int)character.getX());
+        client.toServer((int)character.getY());
         map = new Map();
+        character.setLevel(map.getLevel());
         timer.start();
     }
 
@@ -64,19 +65,19 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_W){
-            character.move(0, -1);
+            character.changeDirection(0, -1);
         }
         if(e.getKeyCode() == KeyEvent.VK_A){
-            character.move(-1, 0);
+            character.changeDirection(-1, 0);
         }
         if(e.getKeyCode() == KeyEvent.VK_S){
-            character.move(0, 1);
+            character.changeDirection(0, 1);
         }
         if(e.getKeyCode() == KeyEvent.VK_D){
-            character.move(1, 0);
+            character.changeDirection(1, 0);
         }
-        client.toServer(character.getX());
-        client.toServer(character.getY());
+        client.toServer((int)character.getX());
+        client.toServer((int)character.getY());
     }
 
     @Override

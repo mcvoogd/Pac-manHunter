@@ -6,12 +6,12 @@ import java.io.IOException;
 
 public class Images {
 
-    public static BufferedImage map;
+    public static BufferedImage map, wall;
 
 
     public Images(){
         map = readImage("/map01.png");
-
+        wall = readImage("/wall.png");
     }
 
     public BufferedImage readImage(String file) {

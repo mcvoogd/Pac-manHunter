@@ -29,7 +29,7 @@ public class Map {
             for(int x = 0; x < tileX; x++){
                 Color colorPixel = new Color(Images.map.getRGB(x,y), true);
                 if(colorPixel.getRGB() == Color.black.getRGB()){
-                    level[y][x] = new Tile(x * tileSize, y * tileSize);
+                    level[y][x] = new Tile(x * tileSize, y * tileSize, tileSize);
                 }
             }
         }
@@ -37,6 +37,8 @@ public class Map {
 
     public void paintLevel(){
         Graphics2D g2 = map.createGraphics();
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, Images.map.getWidth() * tileSize, Images.map.getHeight() * tileSize);
         for(int y = 0; y < tileY; y++) {
             for (int x = 0; x < tileX; x++) {
                 if(level[y][x] != null){
@@ -50,4 +52,7 @@ public class Map {
         g2.drawImage(map, 0, 0, null);
     }
 
+    public Tile[][] getLevel(){
+        return level;
+    }
 }
