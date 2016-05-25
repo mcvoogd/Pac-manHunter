@@ -1,5 +1,7 @@
 package client;
 
+import util.Images;
+
 import java.awt.*;
 
 /**
@@ -26,10 +28,23 @@ public class Character extends  Rectangle{
     }
 
     public void render(Graphics2D g2d){
-        g2d.setColor(color);
-        g2d.fillRect(x, y, width, height);
+        if(directionX == 1){
+            g2d.drawImage(Images.ghost_red.getSprite(1), x, y, null);
+        }
+        if(directionX == -1){
+           g2d.drawImage(Images.ghost_red.getSprite(0), x, y, null);
+        }
+        if(directionY == 1){
+            g2d.drawImage(Images.ghost_red.getSprite(3), x, y, null);
+        }
+        if(directionY == -1){
+            g2d.drawImage(Images.ghost_red.getSprite(2), x, y, null);
+        }
+        if(directionX == 0 && directionY == 0){
+            g2d.drawImage(Images.ghost_red.getSprite(2), x, y, null);
+        }
         g2d.setColor(Color.WHITE);
-        g2d.drawRect((int)getX(),(int) getY(),(int) getWidth(),(int) getHeight());
+//        g2d.drawRect((int)getX(),(int) getY(),(int) getWidth(),(int) getHeight());
     }
 
     public void move(){

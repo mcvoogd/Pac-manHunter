@@ -38,7 +38,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         map.draw(g2d);
         character.render(g2d);
         player2.render(g2d);
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.WHITE);
         g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
         g2d.drawString("Coordinates: " + xPlayer2 + " : " + yPlayer2, 0, 40);
     }
@@ -46,8 +46,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         character.update();
-//        client.toServer(character.getX());
-//        client.toServer(character.getY());
+        map.update();
+        client.toServer((int)character.getX());
+        client.toServer((int)character.getY());
         repaint();
         xPlayer2Server = client.fromServer();
         yPlayer2Server = client.fromServer();

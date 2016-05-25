@@ -49,7 +49,18 @@ public class Map {
     }
 
     public void draw(Graphics2D g2){
+        paintLevel();
         g2.drawImage(map, 0, 0, null);
+    }
+
+    public void update(){
+        for(int y = 0; y < tileY; y++) {
+            for (int x = 0; x < tileX; x++) {
+                if(level[y][x] != null){
+                    level[y][x].update();
+                }
+            }
+        }
     }
 
     public Tile[][] getLevel(){
