@@ -39,7 +39,7 @@ public class Server extends JFrame {
                 Socket socket2 = serverSocket.accept();
 
                 // Display the client number
-                jta.append("Starting thread for client " + clientNo +
+                jta.append("Starting thread for client " + clientNo + " and " + (clientNo + 1) +
                         " at " + new Date() + '\n');
 
                 // Find the client's host name, and IP address
@@ -48,6 +48,13 @@ public class Server extends JFrame {
                         + inetAddress.getHostName() + "\n");
                 jta.append("Client " + clientNo + "'s IP Address is "
                         + inetAddress.getHostAddress() + "\n");
+                clientNo++;
+                InetAddress inetAddress2 = socket2.getInetAddress();
+                jta.append("Client " + clientNo + "'s host name is "
+                        + inetAddress2.getHostName() + "\n");
+                jta.append("Client " + clientNo + "'s IP Address is "
+                        + inetAddress2.getHostAddress() + "\n");
+
 
                 // Create a new thread for the connection
 

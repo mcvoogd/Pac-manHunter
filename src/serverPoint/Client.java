@@ -30,6 +30,7 @@ public class Client {
         while(true){
             try {
                 toServer.writeObject(new Point(5,5));
+                toServer.flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -15,6 +15,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     Client client;
     private Map map;
     private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0;
+    private boolean crazy = false;
 
     public Panel(Client client){
         character = new Character(32, 32, 32, 32);
@@ -45,7 +46,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         character.update();
-        map.update();
+        if(crazy)
+            map.update();
         client.toServer((int)character.getX());
         client.toServer((int)character.getY());
         repaint();
@@ -75,6 +77,9 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         }
         if(e.getKeyCode() == KeyEvent.VK_D){
             character.changeDirection(1, 0);
+        }
+        if(e.getKeyCode() == KeyEvent.VK_C){
+            crazy = !crazy;
         }
         client.toServer((int)character.getX());
         client.toServer((int)character.getY());

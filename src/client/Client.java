@@ -23,7 +23,7 @@ public class Client extends Canvas{
     public Client(){
         new Images();
         try {
-            Socket socket = new Socket("145.48.228.158", 8000);
+            Socket socket = new Socket("localhost", 8000);
 
             fromServer = new DataInputStream(socket.getInputStream());
             toServer = new DataOutputStream(socket.getOutputStream());

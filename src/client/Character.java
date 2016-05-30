@@ -11,7 +11,7 @@ public class Character extends  Rectangle{
 
     private int x, y, width, height;
     private int speed = 1;
-    private int directionX = 0, directionY = 0;
+    private int directionX = 0, directionY = 0, newDirectionX = 0, newDirectionY = 0;
     private Tile[][] level;
 
     public Character(int x, int y, int width, int height){
@@ -23,7 +23,19 @@ public class Character extends  Rectangle{
     }
 
     public void update(){
-        move();
+        if((newDirectionX == directionX) && (newDirectionY == directionY)){
+            moveChar(directionX, directionY);
+        }else{
+            changeDirection(newDirectionX, newDirectionY);
+        }
+        if(y == 320){
+            if (x > 576){
+                x = 0;
+            }
+            if( x < 0){
+                x = 576;
+            }
+        }
     }
 
     public void render(Graphics2D g2d){
@@ -46,7 +58,7 @@ public class Character extends  Rectangle{
 //        g2d.drawRect((int)getX(),(int) getY(),(int) getWidth(),(int) getHeight());
     }
 
-    public void move(){
+    public boolean moveChar(int directionX, int directionY){
         int newX = x + directionX * speed;
         int newY = y +  directionY * speed;
         int tileX = (y + 16)/32;
@@ -68,8 +80,9 @@ public class Character extends  Rectangle{
             x = newX;
             y = newY;
             setBounds(x, y, width, height);
+            return true;
         }
-
+        return  false;
     }
 
     public void setLocation(int x, int y){
@@ -78,8 +91,15 @@ public class Character extends  Rectangle{
     }
 
     public void changeDirection(int x, int y){
-        directionX = x;
-        directionY = y;
+        newDirectionX = x;
+        newDirectionY = y;
+        if(!moveChar(newDirectionX, newDirectionY)){
+            moveChar(directionX, directionY);
+        }else{
+            directionX = newDirectionX;
+            directionY = newDirectionY;
+        }
+
     }
 
     public void setLevel(Tile[][] level){

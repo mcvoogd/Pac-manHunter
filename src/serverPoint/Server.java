@@ -107,7 +107,7 @@ public class Server extends JFrame {
                 jta.append("Input 2" + "\n");
                 // Continuously serve the client
                 while (true) {
-                    jta.append(true + "\n");
+//                    jta.append(true + "\n");
                     Point pointPlayer1 = null;
                     Point pointPlayer2 = null;
                     if(inputFromClient1.available() > 0) {
@@ -129,9 +129,9 @@ public class Server extends JFrame {
                             e.printStackTrace();
                         }
                     }
-//                    if(pointPlayer1 != null)
+                    if(pointPlayer1 != null)
                         jta.append("Player 1:" + "x: " + pointPlayer1.getX() + " - " + "y: " + pointPlayer1.getY() + '\n');
-//                    if(pointPlayer2 != null)
+                    if(pointPlayer2 != null)
                         jta.append("Player 2:" + "x: " + pointPlayer2.getX() + " - " + "y: " + pointPlayer2.getY() + '\n');
 
                 }
