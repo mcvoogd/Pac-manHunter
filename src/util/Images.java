@@ -7,13 +7,14 @@ import java.io.IOException;
 public class Images {
 
     public static BufferedImage map;
-    public static SpriteSheet ghost_red, wall;
+    public static SpriteSheet wall;
+    public static SpriteSheet spriteSheet;
 
 
     public Images(){
         map = readImage("/map01.png");
         wall = new SpriteSheet("wall", 32, 32);
-        ghost_red = new SpriteSheet("ghost_red", 32, 32);
+        spriteSheet = new SpriteSheet("spritesheet", 32, 32);
 
     }
 

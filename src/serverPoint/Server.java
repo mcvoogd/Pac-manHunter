@@ -1,5 +1,8 @@
-package server;
+package serverPoint;
 
+/**
+ * Created by Harmen on 30-5-2016.
+ */
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -27,7 +30,7 @@ public class Server extends JFrame {
         try {
             // Create a server socket
             ServerSocket serverSocket = new ServerSocket(8000);
-            jta.append("MultiThreadServer started at " + new Date() + '\n');
+            jta.append("PointServer started at " + new Date() + '\n');
 
             // Number a client
             int clientNo = 1;
@@ -39,7 +42,7 @@ public class Server extends JFrame {
                 Socket socket2 = serverSocket.accept();
 
                 // Display the client number
-                jta.append("Starting thread for client " + clientNo +
+                jta.append("Starting thread for client " + clientNo + " and " + (clientNo + 1) +
                         " at " + new Date() + '\n');
 
                 // Find the client's host name, and IP address
@@ -48,10 +51,16 @@ public class Server extends JFrame {
                         + inetAddress.getHostName() + "\n");
                 jta.append("Client " + clientNo + "'s IP Address is "
                         + inetAddress.getHostAddress() + "\n");
+                clientNo++;
+                InetAddress inetAddress2 = socket2.getInetAddress();
+                jta.append("Client " + clientNo + "'s host name is "
+                        + inetAddress2.getHostName() + "\n");
+                jta.append("Client " + clientNo + "'s IP Address is "
+                        + inetAddress2.getHostAddress() + "\n");
 
                 // Create a new thread for the connection
 
-                HandleAClient task = new HandleAClient(socket, socket2);
+                HandleAClientPoint task = new HandleAClientPoint(socket, socket2);
 
                 // Start the new thread
                 new Thread(task).start();
@@ -69,78 +78,66 @@ public class Server extends JFrame {
 
     // Inner class
     // Define the thread class for handling new connection
-    class HandleAClient implements Runnable {
+    class HandleAClientPoint implements Runnable {
         private Socket socket1, socket2;
 
         /** Construct a thread */
-        public HandleAClient(Socket socket1, Socket socket2) {
-
+        public HandleAClientPoint(Socket socket1, Socket socket2) {
+            jta.append("Handeled Clients" + "\n");
             this.socket1 = socket1;
             this.socket2 = socket2;
         }
 
         /** Run a thread */
         public void run() {
+            jta.append("Run thread" + "\n");
             try {
                 // Create data input and output streams
-                DataInputStream inputFromClient1 = new DataInputStream(
-                        socket1.getInputStream());
-                DataOutputStream outputToClient1 = new DataOutputStream(
+                ObjectOutputStream outputToClient1 = new ObjectOutputStream(
                         socket1.getOutputStream());
-                DataInputStream inputFromClient2 = new DataInputStream(
-                        socket2.getInputStream());
-                DataOutputStream outputToClient2 = new DataOutputStream(
+                jta.append("Output 1" + "\n");
+                ObjectInputStream inputFromClient1 = new ObjectInputStream(
+                        socket1.getInputStream());
+                jta.append("Input 1" + "\n");
+                ObjectOutputStream outputToClient2 = new ObjectOutputStream(
                         socket2.getOutputStream());
-
-                int oldx1 = 0;
-                int oldy1 = 0;
-                int oldx2 = 0;
-                int oldy2 = 0;
+                jta.append("Output 2" + "\n");
+                ObjectInputStream inputFromClient2 = new ObjectInputStream(
+                        socket2.getInputStream());
+                jta.append("Input 2" + "\n");
                 // Continuously serve the client
                 while (true) {
-                    // Receive radius from the client
-//                    double radius = inputFromClient.readDouble();
-
+                    jta.append(true + "\n");
+                    Point pointPlayer1 = null;
+                    Point pointPlayer2 = null;
                     if(inputFromClient1.available() > 0) {
-                        int x1 = inputFromClient1.readInt();
-                        int y1 = inputFromClient1.readInt();
-                        if((x1!=oldx1) || (y1 != oldy1)){
-                            outputToClient2.writeInt(x1);
-                            outputToClient2.writeInt(y1);
+                        jta.append("Recieving data player 1");
+                        try {
+                            Object o = inputFromClient1.readObject();
+                            pointPlayer1 = (Point) o;
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
                         }
-                        oldx1=x1;
-                        oldy1=y1;
                     }
 
                     if(inputFromClient2.available() > 0) {
-                        int x2 = inputFromClient2.readInt();
-                        int y2 = inputFromClient2.readInt();
-                        if((x2!=oldx2) || (y2 != oldy2)){
-                            outputToClient1.writeInt(x2);
-                            outputToClient1.writeInt(y2);
+                        jta.append("Recieving data player 2");
+                        try {
+                            Object o = inputFromClient2.readObject();
+                            pointPlayer2 = (Point) o;
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
                         }
-                        oldx2=x2;
-                        oldy2=y2;
                     }
+//                    if(pointPlayer1 != null)
+                        jta.append("Player 1:" + "x: " + pointPlayer1.getX() + " - " + "y: " + pointPlayer1.getY() + '\n');
+//                    if(pointPlayer2 != null)
+                        jta.append("Player 2:" + "x: " + pointPlayer2.getX() + " - " + "y: " + pointPlayer2.getY() + '\n');
 
-
-
-
-                    // Compute area
-//                    double area = radius * radius * Math.PI;
-
-                    // Send area back to the client
-//                    outputToClient.writeDouble(area);
-
-//                    jta.append("Player 1:" + "x: " + x1 + " - " + "y: " + y1 + '\n');
-//                    jta.append("Player 2:" + "x: " + x2 + " - " + "y: " + y2 + '\n');
-//                    jta.append("radius received from client: " +
-//                            radius + '\n');
-//                    jta.append("Area found: " + area + '\n');
                 }
             }
             catch(IOException e) {
-                System.err.println(e);
+                System.out.println(e.getStackTrace());
             }
 
         }

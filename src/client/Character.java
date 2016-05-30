@@ -11,7 +11,6 @@ public class Character extends  Rectangle{
 
     private int x, y, width, height;
     private int speed = 1;
-    private Color color = new Color(136, 42, 29);
     private int directionX = 0, directionY = 0;
     private Tile[][] level;
 
@@ -29,27 +28,25 @@ public class Character extends  Rectangle{
 
     public void render(Graphics2D g2d){
         if(directionX == 1){
-            g2d.drawImage(Images.ghost_red.getSprite(1), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(17), x, y, null);
         }
         if(directionX == -1){
-           g2d.drawImage(Images.ghost_red.getSprite(0), x, y, null);
+           g2d.drawImage(Images.spriteSheet.getSprite(16), x, y, null);
         }
         if(directionY == 1){
-            g2d.drawImage(Images.ghost_red.getSprite(3), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(19), x, y, null);
         }
         if(directionY == -1){
-            g2d.drawImage(Images.ghost_red.getSprite(2), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(18), x, y, null);
         }
         if(directionX == 0 && directionY == 0){
-            g2d.drawImage(Images.ghost_red.getSprite(2), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(17), x, y, null);
         }
         g2d.setColor(Color.WHITE);
 //        g2d.drawRect((int)getX(),(int) getY(),(int) getWidth(),(int) getHeight());
     }
 
     public void move(){
-        int oldX = x;
-        int oldY = y;
         int newX = x + directionX * speed;
         int newY = y +  directionY * speed;
         int tileX = (y + 16)/32;
@@ -78,10 +75,6 @@ public class Character extends  Rectangle{
     public void setLocation(int x, int y){
         this.x = x;
         this.y = y;
-    }
-
-    public void setColor(Color color){
-        this.color = color;
     }
 
     public void changeDirection(int x, int y){

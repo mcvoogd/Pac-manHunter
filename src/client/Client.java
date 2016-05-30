@@ -36,7 +36,7 @@ public class Client extends Canvas{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new Panel(this));
         frame.pack();
-        frame.setSize(new Dimension(500,500));
+        frame.setSize(new Dimension(625,735));
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Pac-man Hunter");
@@ -47,7 +47,7 @@ public class Client extends Canvas{
 
     public void toServer(int data){
         try {
-            toServer.write(data);
+            toServer.writeInt(data);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class Client extends Canvas{
     public int fromServer(){
         try {
             if(fromServer.available() > 0){
-                return fromServer.read();
+                return fromServer.readInt();
             }
         } catch (IOException e) {
             e.printStackTrace();

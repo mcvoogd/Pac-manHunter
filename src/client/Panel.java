@@ -19,7 +19,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     public Panel(Client client){
         character = new Character(32, 32, 32, 32);
         player2 = new Character(32, 32, 32, 32);
-        player2.setColor(Color.RED);
         timer = new Timer(1000/60, this);
         this.client = client;
         addKeyListener(this);
