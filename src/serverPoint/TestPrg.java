@@ -4,6 +4,7 @@ import javax.net.ServerSocketFactory;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,6 +17,7 @@ public class TestPrg {
 
         Socket socketToServer = new Socket("localhost", 15000);
         ObjectOutputStream outStream = new ObjectOutputStream(socketToServer.getOutputStream());
+        ObjectInputStream inStream = new ObjectInputStream(socketToServer.getInputStream());
 
         for (int i=1; i<10; i++) {
             try {
@@ -25,6 +27,14 @@ public class TestPrg {
             }
             System.out.println("Sending object to server ...");
             outStream.writeObject(new Point(8,5));
+            System.out.println("Available: "+ inStream.available());
+            if(inStream.available() > 0){
+                try {
+                    System.out.println("Read from client" + inStream.readObject());
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         System.exit(0);
 
@@ -55,9 +65,11 @@ public class TestPrg {
     static class ClientHandler extends Thread{
         private Socket socket;
         ObjectInputStream inputStream;
+        ObjectOutputStream outputStream;
 
         ClientHandler(Socket socket) throws IOException {
             this.socket = socket;
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
             inputStream = new ObjectInputStream(socket.getInputStream());
         }
 
@@ -68,10 +80,16 @@ public class TestPrg {
                     Object o = inputStream.readObject();
                     Point point = (Point) o;
                     System.out.println("Read object: "+ point);
+
                 } catch (IOException e) {
                     e.printStackTrace();
 
                 } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    outputStream.writeObject(new Point(12, 5));
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

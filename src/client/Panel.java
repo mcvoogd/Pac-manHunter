@@ -48,8 +48,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         character.update();
         if(crazy)
             map.update();
-        client.toServer((int)character.getX());
-        client.toServer((int)character.getY());
+        int xtoSend = (int) character.getX();
+        xtoSend += 1000;
+        int ytoSend = (int) character.getY();
+        ytoSend += 2000;
+        client.toServer(xtoSend);
+        client.toServer(ytoSend);
         repaint();
 
     }
@@ -88,8 +92,18 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
 
     public void read(){
         while (true){
-                xPlayer2Server = client.fromServer();
-                yPlayer2Server = client.fromServer();
+                int read1 = client.fromServer();
+                int read2 = client.fromServer();
+                if(read1 - 2000 < 0){
+                    xPlayer2Server = read1 - 1000;
+                }else{
+                    yPlayer2Server = read1 - 2000;
+                }
+                if(read2 - 2000 < 0){
+                    xPlayer2Server = read2 - 1000;
+                }else{
+                    yPlayer2Server = read2 - 2000;
+                }
                 if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
                 if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
                 player2.setLocation(xPlayer2, yPlayer2);

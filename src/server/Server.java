@@ -126,8 +126,20 @@ public class Server extends JFrame {
 //                    double radius = inputFromClient.readDouble();
 
                     if(inputFromClient1.available() > 0) {
-                        int x1 = inputFromClient1.readInt();
-                        int y1 = inputFromClient1.readInt();
+                        int readInt = inputFromClient1.readInt();
+                        int readInt2 = inputFromClient1.readInt();
+                        int x1 = oldx1;
+                        int y1 = oldy1;
+                        if((readInt - 2000) > 0){
+                            y1 = readInt;
+                        }else{
+                            x1 = readInt;
+                        }
+                        if((readInt2 - 2000) > 0){
+                            y1 = readInt2;
+                        }else{
+                            x1 = readInt2;
+                        }
                         if((x1!=oldx1) || (y1 != oldy1)){
                             outputToClient2.writeInt(x1);
                             outputToClient2.writeInt(y1);
@@ -137,8 +149,20 @@ public class Server extends JFrame {
                     }
 
                     if(inputFromClient2.available() > 0) {
-                        int x2 = inputFromClient2.readInt();
-                        int y2 = inputFromClient2.readInt();
+                        int readInt = inputFromClient2.readInt();
+                        int readInt2 = inputFromClient2.readInt();
+                        int x2 = oldx2;
+                        int y2 = oldy2;
+                        if((readInt - 2000) > 0){
+                            y2 = readInt;
+                        }else{
+                            x2 = readInt;
+                        }
+                        if((readInt2 - 2000) > 0){
+                            y2 = readInt2;
+                        }else{
+                            x2 = readInt2;
+                        }
                         if((x2!=oldx2) || (y2 != oldy2)){
                             outputToClient1.writeInt(x2);
                             outputToClient1.writeInt(y2);
