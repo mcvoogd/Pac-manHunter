@@ -1,5 +1,8 @@
 package client;
 
+import server.Pacman;
+import server.Path;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,17 +12,21 @@ import java.awt.event.KeyListener;
 
 public class Panel extends JPanel implements ActionListener, KeyListener{
 
-    Character character;
-    Character player2;
-    Timer timer;
-    Client client;
+    private Character character;
+    private Character player2;
+    private Pacman pacman;
+    private Timer timer;
+    private Client client;
     private Map map;
-    private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0;
+    private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0, xPacman = 0, yPacman = 0;
     private boolean crazy = false;
+
+    private Path path;
 
     public Panel(Client client){
         character = new Character(32, 32, 32, 32);
         player2 = new Character(32, 32, 32, 32);
+        pacman = new Pacman();
         timer = new Timer(1000/60, this);
         this.client = client;
         addKeyListener(this);
@@ -28,6 +35,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         client.toServer((int)character.getX());
         client.toServer((int)character.getY());
         map = new Map();
+        path = new Path(new Point(12,12), map);
         character.setLevel(map.getLevel());
         timer.start();
     }
@@ -38,9 +46,11 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         map.draw(g2d);
         character.render(g2d);
         player2.render(g2d);
+        pacman.render(g2d);
         g2d.setColor(Color.WHITE);
         g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
         g2d.drawString("Coordinates: " + xPlayer2 + " : " + yPlayer2, 0, 40);
+        path.paintPath(g2d);
     }
 
     @Override
@@ -92,21 +102,31 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
 
     public void read(){
         while (true){
-                int read1 = client.fromServer();
-                int read2 = client.fromServer();
-                if(read1 - 2000 < 0){
-                    xPlayer2Server = read1 - 1000;
-                }else{
-                    yPlayer2Server = read1 - 2000;
-                }
-                if(read2 - 2000 < 0){
-                    xPlayer2Server = read2 - 1000;
-                }else{
-                    yPlayer2Server = read2 - 2000;
-                }
-                if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
-                if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
-                player2.setLocation(xPlayer2, yPlayer2);
+            int read1 = client.fromServer();
+            int read2 = client.fromServer();
+            if(read1 - 2000 < 0){
+                xPlayer2Server = read1 - 1000;
+            }else if(read1 - 3000 < 0){
+                yPlayer2Server = read1 - 2000;
+            }else if(read1 - 4000 < 0){
+                xPacman = read1 - 3000;
+            }else{
+                yPacman = read1 - 4000;
+            }
+
+            if(read2 - 2000 < 0){
+                xPlayer2Server = read2 - 1000;
+            }else if(read2 - 3000 < 0){
+                yPlayer2Server = read2 - 2000;
+            }else if(read2 - 4000 < 0){
+                xPacman = read2 - 3000;
+            }else{
+                yPacman = read2 - 4000;
+            }
+            if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
+            if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
+            player2.setLocation(xPlayer2, yPlayer2);
+            pacman.setLocation(xPacman, yPacman);
         }
     }
 

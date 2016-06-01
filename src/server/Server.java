@@ -108,7 +108,6 @@ public class Server extends JFrame {
                 int oldy1 = 0;
                 int oldx2 = 0;
                 int oldy2 = 0;
-
 //                timer = new Timer(1000, e -> {
 //                    try {
 //                        System.out.println("reset");
@@ -122,6 +121,7 @@ public class Server extends JFrame {
 //                timer.start();
                 // Continuously serve the client
                 while (true) {
+                    game.update();
                     // Receive radius from the client
 //                    double radius = inputFromClient.readDouble();
 
@@ -170,12 +170,12 @@ public class Server extends JFrame {
                         oldx2=x2;
                         oldy2=y2;
                     }
-                    int x = game.getPacman().getXCoord();
-                    int y = game.getPacman().getYCoord();
-//                    outputToClient1.writeInt(x);
-//                    outputToClient1.writeInt(y);
-//                    outputToClient2.writeInt(x);
-//                    outputToClient2.writeInt(y);
+                    int x = game.getPacman().getXCoord() + 3000;
+                    int y = game.getPacman().getYCoord() + 4000;
+                    outputToClient1.writeInt(x);
+                    outputToClient1.writeInt(y);
+                    outputToClient2.writeInt(x);
+                    outputToClient2.writeInt(y);
 
 
 

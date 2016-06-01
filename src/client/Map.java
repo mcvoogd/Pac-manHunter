@@ -5,9 +5,6 @@ import util.Images;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/**
- * Created by Harmen on 24-5-2016.
- */
 public class Map {
 
     private BufferedImage map;
@@ -65,5 +62,14 @@ public class Map {
 
     public Tile[][] getLevel(){
         return level;
+    }
+
+
+    public int getTileX(){
+        return tileX;
+    }
+
+    public int getTileY(){
+        return tileY;
     }
 }
