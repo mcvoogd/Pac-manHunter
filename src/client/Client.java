@@ -14,6 +14,7 @@ public class Client extends Canvas{
     private JFrame frame;
     private DataOutputStream toServer;
     private DataInputStream fromServer;
+    private Panel panel;
 
 
     public static void main(String[] args) {
@@ -31,16 +32,16 @@ public class Client extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        panel = new Panel(this);
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new Panel(this));
+        frame.add(panel);
         frame.pack();
         frame.setSize(new Dimension(625,735));
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Pac-man Hunter");
-
+        panel.read();
 
 
     }
@@ -56,7 +57,9 @@ public class Client extends Canvas{
     public int fromServer(){
         try {
             if(fromServer.available() > 0){
-                return fromServer.readInt();
+                int read = fromServer.readInt();
+                return read;
+
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -18,7 +18,12 @@ public class Game {
     }
 
     public void update() {
-
+        pacman.update();
     }
+
+    public Pacman getPacman(){
+        return pacman;
+    }
+
 
 }

@@ -1,21 +1,29 @@
 package server;
 
+import client.Tile;
+
 import java.awt.*;
 
-/**
- * Created by Martijn on 30-5-2016.
- */
 public class Pacman extends Rectangle {
 
     private int xDirection, yDirection;
-
+    private Tile[][] level;
+    private int x, y;
 
     public Pacman(){
+        super(32, 32, 32, 32);
+        x = 32; y = 32;
 
     }
 
     public void update(){
-
+        if(x < 10){
+            x++;
+        }
+        if(y < 10){
+            y++;
+        }
+        setBounds(x, y, 32, 32);
     }
 
     public int getxDirection() {
@@ -32,5 +40,17 @@ public class Pacman extends Rectangle {
 
     public void setyDirection(int yDirection) {
         this.yDirection = yDirection;
+    }
+
+    public void setLevel(Tile[][] level){
+        this.level = level;
+    }
+
+    public int getXCoord(){
+        return x;
+    }
+
+    public int getYCoord(){
+        return y;
     }
 }

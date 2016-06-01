@@ -51,11 +51,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         client.toServer((int)character.getX());
         client.toServer((int)character.getY());
         repaint();
-        xPlayer2Server = client.fromServer();
-        yPlayer2Server = client.fromServer();
-        if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
-        if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
-        player2.setLocation(xPlayer2, yPlayer2);
+
     }
 
 
@@ -88,6 +84,16 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void read(){
+        while (true){
+                xPlayer2Server = client.fromServer();
+                yPlayer2Server = client.fromServer();
+                if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
+                if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
+                player2.setLocation(xPlayer2, yPlayer2);
+        }
     }
 
 }

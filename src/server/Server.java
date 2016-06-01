@@ -1,20 +1,23 @@
 package server;
 
+import util.Images;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.Timer;
 
 public class Server extends JFrame {
     // Text area for displaying contents
     private JTextArea jta = new JTextArea();
-
     public static void main(String[] args) {
         new Server();
     }
 
     public Server() {
+        new Images();
         // Place text area on the frame
         setLayout(new BorderLayout());
         add(new JScrollPane(jta), BorderLayout.CENTER);
@@ -23,7 +26,6 @@ public class Server extends JFrame {
         setSize(500, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true); // It is necessary to show the frame here!
-
         try {
             // Create a server socket
             ServerSocket serverSocket = new ServerSocket(8000);
@@ -58,7 +60,7 @@ public class Server extends JFrame {
 
                 // Create a new thread for the connection
 
-                HandleAClient task = new HandleAClient(socket, socket2);
+                HandleAClient task = new HandleAClient(socket, socket2, new Game());
 
                 // Start the new thread
                 new Thread(task).start();
@@ -78,12 +80,15 @@ public class Server extends JFrame {
     // Define the thread class for handling new connection
     class HandleAClient implements Runnable {
         private Socket socket1, socket2;
+        private Game game;
+        private Timer timer;
 
         /** Construct a thread */
-        public HandleAClient(Socket socket1, Socket socket2) {
+        public HandleAClient(Socket socket1, Socket socket2, Game game) {
 
             this.socket1 = socket1;
             this.socket2 = socket2;
+            this.game = game;
         }
 
         /** Run a thread */
@@ -103,6 +108,18 @@ public class Server extends JFrame {
                 int oldy1 = 0;
                 int oldx2 = 0;
                 int oldy2 = 0;
+
+//                timer = new Timer(1000, e -> {
+//                    try {
+//                        System.out.println("reset");
+//                        inputFromClient1.skipBytes(10);
+//                        inputFromClient2.skipBytes(10);
+//                    } catch (IOException e1) {
+//                        e1.printStackTrace();
+//                    }
+//                });
+//
+//                timer.start();
                 // Continuously serve the client
                 while (true) {
                     // Receive radius from the client
@@ -129,6 +146,12 @@ public class Server extends JFrame {
                         oldx2=x2;
                         oldy2=y2;
                     }
+                    int x = game.getPacman().getXCoord();
+                    int y = game.getPacman().getYCoord();
+//                    outputToClient1.writeInt(x);
+//                    outputToClient1.writeInt(y);
+//                    outputToClient2.writeInt(x);
+//                    outputToClient2.writeInt(y);
 
 
 

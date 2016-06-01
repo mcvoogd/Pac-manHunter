@@ -65,12 +65,10 @@ public class Character extends  Rectangle{
         int tileY = (x + 16)/32;
         Rectangle rect = new Rectangle(newX, newY, width, height);
         boolean hit = false;
-        System.out.println("Tile:" + tileX + " : " + tileY);
         for(int y = 0; y < level.length; y++){
             for(int x = 0; x < level[y].length; x++) {
                 if(level[y][x] != null){
                     if(level[y][x].intersects(rect)){
-                        System.out.println("Hit");
                         hit = true;
                     }
                 }
