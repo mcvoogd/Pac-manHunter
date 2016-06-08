@@ -10,12 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Panel extends JPanel implements ActionListener, KeyListener{
+public class GamePanel extends JPanel implements KeyListener{
 
     private Character character;
     private Character player2;
     private Pacman pacman;
-    private Timer timer;
     private Client client;
     private Map map;
     private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0, xPacman = 0, yPacman = 0;
@@ -23,11 +22,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
 
     private Path path;
 
-    public Panel(Client client){
+    public GamePanel(Client client){
         character = new Character(32, 32, 32, 32);
         player2 = new Character(32, 32, 32, 32);
         pacman = new Pacman();
-        timer = new Timer(1000/60, this);
         this.client = client;
         addKeyListener(this);
         setFocusable(true);
@@ -37,12 +35,12 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         map = new Map();
         path = new Path(new Point(12,12), map);
         character.setLevel(map.getLevel());
-        timer.start();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+
         map.draw(g2d);
         character.render(g2d);
         player2.render(g2d);
@@ -53,8 +51,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         path.paintPath(g2d);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void update() {
         character.update();
         if(crazy)
             map.update();
@@ -64,7 +61,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
         ytoSend += 2000;
         client.toServer(xtoSend);
         client.toServer(ytoSend);
-        repaint();
 
     }
 
@@ -101,7 +97,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
     }
 
     public void read(){
-        while (true){
             int read1 = client.fromServer();
             int read2 = client.fromServer();
             if(read1 - 2000 < 0){
@@ -127,7 +122,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener{
             if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
             player2.setLocation(xPlayer2, yPlayer2);
             pacman.setLocation(xPacman, yPacman);
-        }
     }
 
 }

@@ -14,12 +14,12 @@ public class Client extends Canvas{
     private JFrame frame;
     private DataOutputStream toServer;
     private DataInputStream fromServer;
-    private Panel panel;
+    private GamePanel gamePanel;
 
 
-    public static void main(String[] args) {
-        new Client();
-    }
+//    public static void main(String[] args) {
+//        new Client();
+//    }
 
     public Client(){
         new Images();
@@ -32,18 +32,24 @@ public class Client extends Canvas{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel = new Panel(this);
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(panel);
-        frame.pack();
-        frame.setSize(new Dimension(625,735));
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setTitle("Pac-man Hunter");
-        panel.read();
+        gamePanel = new GamePanel(this);
+//        frame = new JFrame();
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.add(gamePanel);
+//        frame.pack();
+//        frame.setSize(new Dimension(625,735));
+//        frame.setVisible(true);
+//        frame.setLocationRelativeTo(null);
+//        frame.setTitle("Pac-man Hunter");
+        gamePanel.read();
+    }
 
+    public void update(){
+        gamePanel.update();
+    }
 
+    public void render(){
+        gamePanel.repaint();
     }
 
     public void toServer(int data){
@@ -65,5 +71,13 @@ public class Client extends Canvas{
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public JPanel getGamePanel(){
+        return gamePanel;
+    }
+
+    public void read(){
+        gamePanel.read();
     }
 }
