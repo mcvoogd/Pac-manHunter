@@ -34,9 +34,8 @@ public class Reader implements Runnable {
             try {
                 if(fromServer.available() > 0){
                     int read = fromServer.readInt();
-                    System.out.println(read);
+                    System.out.println("Receive1: " + read);
                     read1 = read;
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -45,6 +44,7 @@ public class Reader implements Runnable {
             try {
                 if(fromServer.available() > 0){
                     int read = fromServer.readInt();
+                    System.out.println("Receive2: " + read);
                     read2 = read;
 
                 }
@@ -76,6 +76,7 @@ public class Reader implements Runnable {
 
     public void toServer(int data){
         try {
+            System.out.println("Sending: " + data);
             toServer.writeInt(data);
         } catch (IOException e) {
             e.printStackTrace();
