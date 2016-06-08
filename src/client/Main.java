@@ -13,6 +13,7 @@ public class Main extends Canvas implements ActionListener{
     private JFrame frame = new JFrame();
     private Screen screen;
     private Client client;
+    private MenuPanel menu;
     private Timer timer;
     private int counter;
 
@@ -26,43 +27,37 @@ public class Main extends Canvas implements ActionListener{
 
     public Main(){
         screen = Screen.MENU;
-        client = new Client();
+        menu = new MenuPanel(this);
+        client = new Client(this);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(client.getGamePanel());
+        frame.add(menu);
         frame.pack();
         frame.setSize(new Dimension(625,735));
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setTitle("Pac-man Hunter");
-        timer = new Timer(1, this);
+        timer = new Timer(1000/60, this);
         timer.start();
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        counter++;
-        if(counter > 60){
             update();
             render();
-            counter = 0;
-        }
-        if(screen == Screen.GAME){
-            client.read();
-        }
     }
 
     public void update(){
         switch (screen){
-            case MENU: break;
+            case MENU: menu.update(); break;
             case GAME:  client.update(); break;
-            case CONNECT: break;
+            case CONNECT: client.update(); break;
         }
     }
 
     public void render(){
         switch (screen){
-            case MENU: break;
+            case MENU: menu.repaint(); break;
             case GAME: client.render(); break;
             case CONNECT: break;
         }
@@ -70,6 +65,24 @@ public class Main extends Canvas implements ActionListener{
 
     public void switchScreen(Screen screen){
         this.screen = screen;
+        switch (screen){
+            case MENU: frame.setContentPane(menu); break;
+            case GAME:
+                client.start();
+                frame.setContentPane(client.getGamePanel());
+                frame.repaint();
+                frame.invalidate();
+                frame.revalidate();
+
+                break;
+            case CONNECT:
+                frame.setContentPane(client.getConnectPanel());
+                System.out.println("SWITCH PANEL");
+                frame.repaint();
+                frame.invalidate();
+                frame.revalidate();
+                break;
+        }
     }
 
 }

@@ -3,81 +3,66 @@ package client;
 import util.Images;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
 
-public class Client extends Canvas{
+public class Client{
 
     private JFrame frame;
-    private DataOutputStream toServer;
-    private DataInputStream fromServer;
+
     private GamePanel gamePanel;
+    private ConnectPanel connectPanel;
+    private boolean start;
+    private Main main;
+    private Reader reader;
 
-
-//    public static void main(String[] args) {
-//        new Client();
-//    }
-
-    public Client(){
+    public Client(Main main){
+        this.main = main;
         new Images();
-        try {
-            Socket socket = new Socket("localhost", 8000);
+        new Thread(reader = new Reader(this)).start();
 
-            fromServer = new DataInputStream(socket.getInputStream());
-            toServer = new DataOutputStream(socket.getOutputStream());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gamePanel = new GamePanel(this);
-//        frame = new JFrame();
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.add(gamePanel);
-//        frame.pack();
-//        frame.setSize(new Dimension(625,735));
-//        frame.setVisible(true);
-//        frame.setLocationRelativeTo(null);
-//        frame.setTitle("Pac-man Hunter");
-        gamePanel.read();
+        connectPanel = new ConnectPanel(main);
+        gamePanel = new GamePanel(this, reader);
     }
 
     public void update(){
-        gamePanel.update();
+        if(start){
+            gamePanel.update();
+        }else{
+            boolean b = true;
+
+            connectPanel.update();
+            if(b){
+                System.out.println("START GAME");
+                connectPanel.switchPanel();
+            }
+        }
     }
 
     public void render(){
-        gamePanel.repaint();
+        if(start){
+            gamePanel.repaint();
+        }else{
+            connectPanel.repaint();
+        }
     }
 
     public void toServer(int data){
-        try {
-            toServer.writeInt(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        reader.toServer(data);
     }
 
-    public int fromServer(){
-        try {
-            if(fromServer.available() > 0){
-                int read = fromServer.readInt();
-                return read;
+    public void start(){
+        start = true;
+        gamePanel.start();
 
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return 0;
     }
 
     public JPanel getGamePanel(){
         return gamePanel;
     }
 
-    public void read(){
-        gamePanel.read();
+    public JPanel getConnectPanel(){
+        return connectPanel;
     }
+
+
 }
+

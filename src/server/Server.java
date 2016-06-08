@@ -108,6 +108,10 @@ public class Server extends JFrame {
                 int oldy1 = 0;
                 int oldx2 = 0;
                 int oldy2 = 0;
+
+                outputToClient1.writeBoolean(true);
+                outputToClient2.writeBoolean(true);
+
 //                timer = new Timer(1000, e -> {
 //                    try {
 //                        System.out.println("reset");

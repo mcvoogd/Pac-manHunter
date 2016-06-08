@@ -16,42 +16,50 @@ public class GamePanel extends JPanel implements KeyListener{
     private Character player2;
     private Pacman pacman;
     private Client client;
+    private Reader reader;
     private Map map;
     private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0, xPacman = 0, yPacman = 0;
     private boolean crazy = false;
 
     private Path path;
+    private boolean start = false;
 
-    public GamePanel(Client client){
-        character = new Character(32, 32, 32, 32);
-        player2 = new Character(32, 32, 32, 32);
-        pacman = new Pacman();
+    public GamePanel(Client client, Reader reader){
         this.client = client;
-        addKeyListener(this);
-        setFocusable(true);
-        requestFocus();
-        client.toServer((int)character.getX());
-        client.toServer((int)character.getY());
-        map = new Map();
-        path = new Path(new Point(12,12), map);
-        character.setLevel(map.getLevel());
+        this.reader = reader;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-
         map.draw(g2d);
         character.render(g2d);
         player2.render(g2d);
         pacman.render(g2d);
         g2d.setColor(Color.WHITE);
         g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
-        g2d.drawString("Coordinates: " + xPlayer2 + " : " + yPlayer2, 0, 40);
+        g2d.drawString("Coordinates: " + player2.getX() + " : " + player2.getY(), 0, 40);
         path.paintPath(g2d);
     }
 
+    public void start(){
+        character = new Character(32, 32, 32, 32);
+        player2 = new Character(32, 32, 32, 32);
+        pacman = new Pacman();
+//        client.toServer((int)character.getX());
+//        client.toServer((int)character.getY());
+        map = new Map();
+        path = new Path(new Point(12,12), map);
+        character.setLevel(map.getLevel());
+        addKeyListener(this);
+        setFocusable(true);
+        requestFocus();
+        start = true;
+    }
+
     public void update() {
+        setFocusable(true);
+        requestFocus();
         character.update();
         if(crazy)
             map.update();
@@ -61,9 +69,10 @@ public class GamePanel extends JPanel implements KeyListener{
         ytoSend += 2000;
         client.toServer(xtoSend);
         client.toServer(ytoSend);
+        player2.setLocation(reader.getxPlayer2Server(), reader.getyPlayer2Server());
+        pacman.setLocation(reader.getxPacman(), reader.getyPacman());
 
     }
-
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -72,6 +81,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println("KEY PRESSED");
         if(e.getKeyCode() == KeyEvent.VK_W){
             character.changeDirection(0, -1);
         }
@@ -96,32 +106,5 @@ public class GamePanel extends JPanel implements KeyListener{
 
     }
 
-    public void read(){
-            int read1 = client.fromServer();
-            int read2 = client.fromServer();
-            if(read1 - 2000 < 0){
-                xPlayer2Server = read1 - 1000;
-            }else if(read1 - 3000 < 0){
-                yPlayer2Server = read1 - 2000;
-            }else if(read1 - 4000 < 0){
-                xPacman = read1 - 3000;
-            }else{
-                yPacman = read1 - 4000;
-            }
-
-            if(read2 - 2000 < 0){
-                xPlayer2Server = read2 - 1000;
-            }else if(read2 - 3000 < 0){
-                yPlayer2Server = read2 - 2000;
-            }else if(read2 - 4000 < 0){
-                xPacman = read2 - 3000;
-            }else{
-                yPacman = read2 - 4000;
-            }
-            if(xPlayer2Server > 0) xPlayer2 = xPlayer2Server;
-            if(yPlayer2Server > 0) yPlayer2 = yPlayer2Server;
-            player2.setLocation(xPlayer2, yPlayer2);
-            pacman.setLocation(xPacman, yPacman);
-    }
 
 }
