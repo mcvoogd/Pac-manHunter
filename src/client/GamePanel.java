@@ -24,6 +24,16 @@ public class GamePanel extends JPanel implements KeyListener{
     private Path path;
     private boolean start = false;
 
+    private int playerX2;
+
+    public int getPlayerX2() {
+        return playerX2;
+    }
+
+    public void setPlayerX2(int playerX2) {
+        this.playerX2 = playerX2;
+    }
+
     public GamePanel(Client client, Reader reader){
         this.client = client;
         this.reader = reader;
@@ -38,7 +48,7 @@ public class GamePanel extends JPanel implements KeyListener{
         pacman.render(g2d);
         g2d.setColor(Color.WHITE);
         g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
-        g2d.drawString("Coordinates: " + player2.getX() + " : " + player2.getY(), 0, 40);
+        g2d.drawString("Coordinates: " + Data.getPlayer2X() + " : " + player2.getY(), 0, 40);
         path.paintPath(g2d);
     }
 
@@ -69,7 +79,7 @@ public class GamePanel extends JPanel implements KeyListener{
         ytoSend += 2000;
         client.toServer(xtoSend);
         client.toServer(ytoSend);
-        player2.setLocation(reader.getxPlayer2Server(), reader.getyPlayer2Server());
+        player2.setLocation(Data.getPlayer2X(), reader.getyPlayer2Server());
         pacman.setLocation(reader.getxPacman(), reader.getyPacman());
 
     }

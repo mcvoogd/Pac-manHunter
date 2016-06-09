@@ -24,16 +24,16 @@ public class Pacman extends Rectangle {
         int goodSide = 4;
         int tileX = (int) (x / 32);
         int tileY = (int) (y / 32);
-        System.out.println(lastTileX + " : " + tileX);
+//        System.out.println(lastTileX + " : " + tileX);
         if (lastTileX != tileX || lastTileY != tileY) {
             lastTileX = tileX;
             lastTileY = tileY;
-            System.out.println(tileX);
+//            System.out.println(tileX);
             int currentDistance = 9999999;
             if (path.getPath()[tileX][tileY] != null)
                 currentDistance = path.getPath()[tileX][tileY];
             tileValue = currentDistance;
-            System.out.println(tileValue);
+//            System.out.println(tileValue);
             for (int i = 0; i < 4; i++) {
 
                 if (tileX + offsets[i][0] >= 0 && tileY + offsets[i][1] >= 0 && tileX + offsets[i][0] < 80 - 1

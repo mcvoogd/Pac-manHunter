@@ -26,6 +26,7 @@ public class Main extends Canvas implements ActionListener{
     }
 
     public Main(){
+        new Data();
         screen = Screen.MENU;
         menu = new MenuPanel(this);
         client = new Client(this);

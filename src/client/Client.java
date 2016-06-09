@@ -14,10 +14,13 @@ public class Client{
     private Main main;
     private Reader reader;
 
+
+
     public Client(Main main){
         this.main = main;
         new Images();
-        new Thread(reader = new Reader(this)).start();
+        reader = new Reader(this);
+        new Thread(reader).start();
 
         connectPanel = new ConnectPanel(main);
         gamePanel = new GamePanel(this, reader);
@@ -63,6 +66,8 @@ public class Client{
         return connectPanel;
     }
 
+
+    public void setXPlayer(int xPlayer){     if(start){gamePanel.setPlayerX2(xPlayer);}}
 
 }
 
