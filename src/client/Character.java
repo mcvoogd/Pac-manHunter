@@ -31,7 +31,8 @@ public class Character extends  Rectangle{
         this.width = width;
         this.height = height;
         switch (player){
-            case 2: imageNumber = 12;
+            case 1: imageNumber = 16; break;
+            case 2: imageNumber = 12; break;
         }
     }
 
@@ -99,6 +100,7 @@ public class Character extends  Rectangle{
     public void setLocation(int x, int y){
         this.x = x;
         this.y = y;
+        setBounds(x, y, width, height);
     }
 
     public void changeDirection(int x, int y){

@@ -9,9 +9,9 @@ import java.awt.geom.Point2D;
 public class Pacman extends Rectangle {
 
     private int xDirection, yDirection;
-    private Tile[][] level;
     private int x, y, lastTileX = 0, lastTileY = 0, tileValue;
     private Path path;
+    private boolean reached;
 
     public Pacman(){
         super(32, 32, 32, 32);
@@ -34,6 +34,10 @@ public class Pacman extends Rectangle {
                 currentDistance = path.getPath()[tileX][tileY];
             tileValue = currentDistance;
 //            System.out.println(tileValue);
+            System.out.println(currentDistance);
+            if(currentDistance == 0){
+                reached = true;
+            }
             for (int i = 0; i < 4; i++) {
 
                 if (tileX + offsets[i][0] >= 0 && tileY + offsets[i][1] >= 0 && tileX + offsets[i][0] < 80 - 1
@@ -91,10 +95,6 @@ public class Pacman extends Rectangle {
         this.yDirection = yDirection;
     }
 
-    public void setLevel(Tile[][] level){
-        this.level = level;
-    }
-
     public int getXCoord(){
         return x;
     }
@@ -105,5 +105,19 @@ public class Pacman extends Rectangle {
 
     public void setPath(Path path){
         this.path = path;
+        reached = false;
+        System.out.println(reached);
+        lastTileX = 0;
+        lastTileY = 0;
+    }
+
+    public boolean isReached() {
+        return reached;
+    }
+
+    public void teleport(int x, int y){
+        setBounds(x, y, 32, 32);
+        this.x = x;
+        this.y = y;
     }
 }

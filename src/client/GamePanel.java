@@ -37,12 +37,19 @@ public class GamePanel extends JPanel implements KeyListener{
         g2d.setColor(Color.WHITE);
         g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
         g2d.drawString("Coordinates: " + Data.getPlayer2X() + " : " + player2.getY(), 0, 40);
-        path.paintPath(g2d);
+        g2d.drawString("Score: " + Data.getScorePlayer1(), 0, 60);
+        g2d.drawString("Opponent's Score: " + Data.getScorePlayer2(), 0, 80);
+//        path.paintPath(g2d);
     }
 
     public void start(){
-        character = new Character(32, 32, 32, 32);
-        player2 = new Character(32, 32, 32, 32, 2);
+        character = new Character(32, 32, 32, 32, Data.getPlayerNumber());
+        if(Data.getPlayerNumber() == 1){
+            player2 = new Character(32, 32, 32, 32, 2);
+        }else{
+            player2 = new Character(32, 32, 32, 32, 1);
+        }
+
         pacman = new Pacman();
         map = new Map();
         path = new Path(new Point(12,12), map);

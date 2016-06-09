@@ -5,7 +5,7 @@ package client;
  */
 public class Data {
 
-    public static volatile int player2X, player2Y, pacmanX, pacmanY;
+    public static volatile int player2X, player2Y, pacmanX, pacmanY, scorePlayer1, scorePlayer2, playerNumber;
     public static volatile boolean started;
 
     public static int getPlayer2X() {
@@ -50,5 +50,29 @@ public class Data {
 
     public static void setStarted(boolean started) {
         Data.started = started;
+    }
+
+    public static int getScorePlayer1() {
+        return scorePlayer1;
+    }
+
+    public static void setScorePlayer1(int scorePlayer1New) {
+        scorePlayer1 = scorePlayer1New;
+    }
+
+    public static int getScorePlayer2() {
+        return scorePlayer2;
+    }
+
+    public static void setScorePlayer2(int scorePlayer2New) {
+        scorePlayer2 = scorePlayer2New;
+    }
+
+    public static int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public static void setPlayerNumber(int playerNumber) {
+        Data.playerNumber = playerNumber;
     }
 }

@@ -10,7 +10,7 @@ public class Reader implements Runnable {
     private Client client;
     private DataOutputStream toServer;
     private DataInputStream fromServer;
-    private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0, xPacman = 0, yPacman = 0;
+    private int xPlayer2Server = 0, yPlayer2Server = 0, scorePlayer1 = 0, scorePlayer2 = 0, xPacman = 0, yPacman = 0;
     private boolean started;
 
     public Reader(Client client){
@@ -37,6 +37,8 @@ public class Reader implements Runnable {
                     if (fromServer.available() > 0) {
                         started = fromServer.readBoolean();
                         Data.setStarted(started);
+                        Data.setPlayerNumber(fromServer.readInt());
+                        System.out.println(Data.getPlayerNumber());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -73,9 +75,15 @@ public class Reader implements Runnable {
                 } else if (read1 - 4000 < 0) {
                     xPacman = read1 - 3000;
                     Data.setPacmanX(xPacman);
-                } else {
+                } else if(read1 - 5000 < 0){
                     yPacman = read1 - 4000;
                     Data.setPacmanY(yPacman);
+                } else if(read1 - 6000 < 0){
+                    scorePlayer1 = read1 - 5000;
+                    Data.setScorePlayer1(scorePlayer1);
+                } else{
+                    scorePlayer2 = read1 - 6000;
+                    Data.setScorePlayer2(scorePlayer2);
                 }
 
                 if (read2 - 2000 < 0) {
@@ -87,9 +95,15 @@ public class Reader implements Runnable {
                 } else if (read2 - 4000 < 0) {
                     xPacman = read2 - 3000;
                     Data.setPacmanX(xPacman);
-                } else {
+                } else if(read2 - 5000 < 0){
                     yPacman = read2 - 4000;
                     Data.setPacmanY(yPacman);
+                } else if(read2 - 6000 < 0){
+                    scorePlayer1 = read2 - 5000;
+                    Data.setScorePlayer1(scorePlayer1);
+                } else{
+                    scorePlayer2 = read2 - 6000;
+                    Data.setScorePlayer2(scorePlayer2);
                 }
             }
         }

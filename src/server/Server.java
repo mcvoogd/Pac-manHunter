@@ -7,7 +7,6 @@ import java.net.*;
 import java.util.*;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.Timer;
 
 public class Server extends JFrame {
     // Text area for displaying contents
@@ -107,6 +106,8 @@ public class Server extends JFrame {
 
                 outputToClient1.writeBoolean(true);
                 outputToClient2.writeBoolean(true);
+                outputToClient1.writeInt(1);
+                outputToClient2.writeInt(2);
 
                 // Continuously serve the client
                 while (true) {
@@ -130,6 +131,7 @@ public class Server extends JFrame {
                         if((x1!=oldx1) || (y1 != oldy1)){
                             outputToClient2.writeInt(x1);
                             outputToClient2.writeInt(y1);
+                            game.setPlayer1Location(x1 - 1000, y1 - 2000);
                         }
                         oldx1=x1;
                         oldy1=y1;
@@ -153,6 +155,7 @@ public class Server extends JFrame {
                         if((x2!=oldx2) || (y2 != oldy2)){
                             outputToClient1.writeInt(x2);
                             outputToClient1.writeInt(y2);
+                            game.setPlayer2Location(x2 - 1000, y2 - 2000);
                         }
                         oldx2=x2;
                         oldy2=y2;
@@ -163,6 +166,13 @@ public class Server extends JFrame {
                     outputToClient1.writeInt(y);
                     outputToClient2.writeInt(x);
                     outputToClient2.writeInt(y);
+
+                    int score1 = game.getScorePlayer1() + 5000;
+                    int score2 = game.getScorePlayer2() + 6000;
+                    outputToClient1.writeInt(score1);
+                    outputToClient1.writeInt(score2);
+                    outputToClient2.writeInt(score1 + 1000);
+                    outputToClient2.writeInt(score2 - 1000);
 
                 }
             }
