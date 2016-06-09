@@ -18,11 +18,16 @@ public class Game {
     private Character player1, player2;
     private int scorePlayer1, scorePlayer2;
     private boolean player1Hit, player2Hit;
+    private Path[] paths;
 
     public Game(){
         map = new Map();
         pacman = new Pacman();
-        path = new Path(new Point(12, 12), map);
+        paths = new Path[4];
+        paths[0] = new Path(new Point(17, 0), map);
+        paths[1] = new Path(new Point(1, 0), map);
+        paths[2] = new Path(new Point(1, 19), map);
+        paths[3] = new Path(new Point(17, 19), map);
         pacman.setPath(path);
         player1 = new Character(32, 32, 32, 32);
         player2 = new Character(32, 32, 32, 32);
@@ -40,14 +45,16 @@ public class Game {
         if(player1.intersects(pacman) && !player1Hit){
             scorePlayer1++;
             System.out.println("hit");
-            pacman.teleport(32, 32);
+            pacman.teleport(32* 9, 32 * 10);
+            pacman.setPath(paths[(int)(Math.random() * 4)]);
             player1Hit = true;
         }else if(!player1.intersects(pacman)){
             player1Hit = false;
         }
         if(player2.intersects(pacman) && !player2Hit){
             scorePlayer2++;
-            pacman.teleport(32, 32);
+            pacman.teleport(32* 9, 32 * 10);
+            pacman.setPath(paths[(int)(Math.random() * 4)]);
             player2Hit = true;
         }else if(!player2.intersects(pacman)){
             player2Hit = false;

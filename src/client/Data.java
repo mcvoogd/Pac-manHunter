@@ -6,6 +6,7 @@ package client;
 public class Data {
 
     public static volatile int player2X, player2Y, pacmanX, pacmanY, scorePlayer1, scorePlayer2, playerNumber;
+    public static volatile int playerDirectionX, playerDirectionY;
     public static volatile boolean started;
 
     public static int getPlayer2X() {
@@ -74,5 +75,21 @@ public class Data {
 
     public static void setPlayerNumber(int playerNumber) {
         Data.playerNumber = playerNumber;
+    }
+
+    public static int getPlayerDirectionX() {
+        return playerDirectionX;
+    }
+
+    public static void setPlayerDirectionX(int playerDirectionX) {
+        Data.playerDirectionX = playerDirectionX;
+    }
+
+    public static int getPlayerDirectionY() {
+        return playerDirectionY;
+    }
+
+    public static void setPlayerDirectionY(int playerDirectionY) {
+        Data.playerDirectionY = playerDirectionY;
     }
 }

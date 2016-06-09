@@ -104,6 +104,11 @@ public class Server extends JFrame {
                 int oldx2 = 0;
                 int oldy2 = 0;
 
+                int oldDirectionX1 = 0;
+                int oldDirectionY1 = 0;
+                int oldDirectionX2 = 0;
+                int oldDirectionY2 = 0;
+
                 outputToClient1.writeBoolean(true);
                 outputToClient2.writeBoolean(true);
                 outputToClient1.writeInt(1);
@@ -118,7 +123,13 @@ public class Server extends JFrame {
                         int readInt2 = inputFromClient1.readInt();
                         int x1 = oldx1;
                         int y1 = oldy1;
-                        if((readInt - 2000) > 0){
+                        int directionX = oldDirectionX1;
+                        int directionY = oldDirectionY1;
+                        if(readInt - 8000 >= 0){
+                            directionY = readInt;
+                        }else if(readInt - 7000 >= 0){
+                            directionX = readInt;
+                        }else if((readInt - 2000) > 0){
                             y1 = readInt;
                         }else{
                             x1 = readInt;
@@ -133,8 +144,14 @@ public class Server extends JFrame {
                             outputToClient2.writeInt(y1);
                             game.setPlayer1Location(x1 - 1000, y1 - 2000);
                         }
+                        if(directionX != oldDirectionX1 || directionY != oldDirectionY1){
+                            outputToClient2.writeInt(directionX);
+                            outputToClient2.writeInt(directionY);
+                        }
                         oldx1=x1;
                         oldy1=y1;
+                        oldDirectionX1 = directionX;
+                        oldDirectionY1 = directionY;
                     }
 
                     if(inputFromClient2.available() > 0) {
@@ -142,7 +159,13 @@ public class Server extends JFrame {
                         int readInt2 = inputFromClient2.readInt();
                         int x2 = oldx2;
                         int y2 = oldy2;
-                        if((readInt - 2000) > 0){
+                        int directionX = oldDirectionX2;
+                        int directionY = oldDirectionY2;
+                        if(readInt - 8000 >= 0){
+                            directionY = readInt;
+                        }else if(readInt - 7000 >= 0){
+                            directionX = readInt;
+                        }else if((readInt - 2000) > 0){
                             y2 = readInt;
                         }else{
                             x2 = readInt;
@@ -157,8 +180,14 @@ public class Server extends JFrame {
                             outputToClient1.writeInt(y2);
                             game.setPlayer2Location(x2 - 1000, y2 - 2000);
                         }
+                        if(directionX != oldDirectionX2|| directionY != oldDirectionY2){
+                            outputToClient1.writeInt(directionX);
+                            outputToClient1.writeInt(directionY);
+                        }
                         oldx2=x2;
                         oldy2=y2;
+                        oldDirectionX2 = directionX;
+                        oldDirectionY2 = directionY;
                     }
                     int x = game.getPacman().getXCoord() + 3000;
                     int y = game.getPacman().getYCoord() + 4000;

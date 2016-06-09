@@ -81,9 +81,13 @@ public class Reader implements Runnable {
                 } else if(read1 - 6000 < 0){
                     scorePlayer1 = read1 - 5000;
                     Data.setScorePlayer1(scorePlayer1);
-                } else{
+                } else if(read1 - 7000 < 0){
                     scorePlayer2 = read1 - 6000;
                     Data.setScorePlayer2(scorePlayer2);
+                } else if(read1 - 7000 < 900){
+                    Data.setPlayerDirectionX(read1 - 7050);
+                } else if(read1 - 8000 < 900){
+                    Data.setPlayerDirectionY(read1 - 8050);
                 }
 
                 if (read2 - 2000 < 0) {
@@ -101,9 +105,13 @@ public class Reader implements Runnable {
                 } else if(read2 - 6000 < 0){
                     scorePlayer1 = read2 - 5000;
                     Data.setScorePlayer1(scorePlayer1);
-                } else{
+                } else if(read2 - 7000 < 0){
                     scorePlayer2 = read2 - 6000;
                     Data.setScorePlayer2(scorePlayer2);
+                } else if(read2 - 7000 < 900){
+                    Data.setPlayerDirectionX(read2 - 7050);
+                } else if(read2 - 8000 < 900){
+                    Data.setPlayerDirectionY(read2 - 8050);
                 }
             }
         }

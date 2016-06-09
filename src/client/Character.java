@@ -118,4 +118,20 @@ public class Character extends  Rectangle{
     public void setLevel(Tile[][] level){
         this.level = level;
     }
+
+    public int getDirectionX() {
+        return directionX;
+    }
+
+    public int getDirectionY() {
+        return directionY;
+    }
+
+    public void setDirectionX(int directionX) {
+        this.directionX = directionX;
+    }
+
+    public void setDirectionY(int directionY) {
+        this.directionY = directionY;
+    }
 }

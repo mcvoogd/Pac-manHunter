@@ -76,7 +76,7 @@ public class Pacman extends Rectangle {
     }
 
     public void render(Graphics2D g2){
-        g2.drawImage(Images.spriteSheet.getSprite(0), (int) getX(),(int) getY(), null);
+        g2.drawImage(Images.spriteSheet.getSprite(0), (int) getX(),(int) getY() - 32, null);
     }
 
     public int getxDirection() {
