@@ -71,20 +71,27 @@ public class Reader implements Runnable {
                 Data.setPlayer2X(xPlayer2Server);
             }else if(read1 - 3000 < 0){
                 yPlayer2Server = read1 - 2000;
+                Data.setPlayer2Y(yPlayer2Server);
             }else if(read1 - 4000 < 0){
                 xPacman = read1 - 3000;
+                Data.setPacmanX(xPacman);
             }else{
                 yPacman = read1 - 4000;
+                Data.setPacmanY(yPacman);
             }
 
             if(read2 - 2000 < 0){
                 xPlayer2Server = read2 - 1000;
+                Data.setPlayer2X(xPlayer2Server);
             }else if(read2 - 3000 < 0){
                 yPlayer2Server = read2 - 2000;
+                Data.setPlayer2Y(yPlayer2Server);
             }else if(read2 - 4000 < 0){
                 xPacman = read2 - 3000;
+                Data.setPacmanX(xPacman);
             }else{
                 yPacman = read2 - 4000;
+                Data.setPacmanY(yPacman);
             }
         }
     }

@@ -79,8 +79,8 @@ public class GamePanel extends JPanel implements KeyListener{
         ytoSend += 2000;
         client.toServer(xtoSend);
         client.toServer(ytoSend);
-        player2.setLocation(Data.getPlayer2X(), reader.getyPlayer2Server());
-        pacman.setLocation(reader.getxPacman(), reader.getyPacman());
+        player2.setLocation(Data.getPlayer2X(), Data.getPlayer2Y());
+        pacman.setLocation(Data.getPacmanX(), Data.getPacmanY());
 
     }
 

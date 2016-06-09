@@ -176,10 +176,10 @@ public class Server extends JFrame {
                     }
                     int x = game.getPacman().getXCoord() + 3000;
                     int y = game.getPacman().getYCoord() + 4000;
-//                    outputToClient1.writeInt(x);
-//                    outputToClient1.writeInt(y);
-//                    outputToClient2.writeInt(x);
-//                    outputToClient2.writeInt(y);
+                    outputToClient1.writeInt(x);
+                    outputToClient1.writeInt(y);
+                    outputToClient2.writeInt(x);
+                    outputToClient2.writeInt(y);
 
 
 
