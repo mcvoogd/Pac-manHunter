@@ -75,13 +75,9 @@ public class Server extends JFrame {
         }
     }
 
-
-    // Inner class
-    // Define the thread class for handling new connection
     class HandleAClient implements Runnable {
         private Socket socket1, socket2;
         private Game game;
-        private Timer timer;
 
         /** Construct a thread */
         public HandleAClient(Socket socket1, Socket socket2, Game game) {
@@ -109,25 +105,12 @@ public class Server extends JFrame {
                 int oldx2 = 0;
                 int oldy2 = 0;
 
-//                outputToClient1.writeBoolean(true);
-//                outputToClient2.writeBoolean(true);
+                outputToClient1.writeBoolean(true);
+                outputToClient2.writeBoolean(true);
 
-//                timer = new Timer(1000, e -> {
-//                    try {
-//                        System.out.println("reset");
-//                        inputFromClient1.skipBytes(10);
-//                        inputFromClient2.skipBytes(10);
-//                    } catch (IOException e1) {
-//                        e1.printStackTrace();
-//                    }
-//                });
-//
-//                timer.start();
                 // Continuously serve the client
                 while (true) {
                     game.update();
-                    // Receive radius from the client
-//                    double radius = inputFromClient.readDouble();
 
                     if(inputFromClient1.available() > 0) {
                         int readInt = inputFromClient1.readInt();
@@ -181,20 +164,6 @@ public class Server extends JFrame {
                     outputToClient2.writeInt(x);
                     outputToClient2.writeInt(y);
 
-
-
-
-                    // Compute area
-//                    double area = radius * radius * Math.PI;
-
-                    // Send area back to the client
-//                    outputToClient.writeDouble(area);
-
-//                    jta.append("Player 1:" + "x: " + x1 + " - " + "y: " + y1 + '\n');
-//                    jta.append("Player 2:" + "x: " + x2 + " - " + "y: " + y2 + '\n');
-//                    jta.append("radius received from client: " +
-//                            radius + '\n');
-//                    jta.append("Area found: " + area + '\n');
                 }
             }
             catch(IOException e) {

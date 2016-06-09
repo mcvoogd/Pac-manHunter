@@ -22,7 +22,6 @@ public class MenuPanel extends JPanel implements KeyListener{
 
     public void update(){
 
-
     }
 
     public void paintComponent(Graphics g){

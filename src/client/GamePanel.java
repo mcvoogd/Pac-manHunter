@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements KeyListener{
 
     public void start(){
         character = new Character(32, 32, 32, 32);
-        player2 = new Character(32, 32, 32, 32);
+        player2 = new Character(32, 32, 32, 32, 2);
         pacman = new Pacman();
         map = new Map();
         path = new Path(new Point(12,12), map);

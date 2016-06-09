@@ -6,6 +6,7 @@ package client;
 public class Data {
 
     public static volatile int player2X, player2Y, pacmanX, pacmanY;
+    public static volatile boolean started;
 
     public static int getPlayer2X() {
         return player2X;
@@ -41,5 +42,13 @@ public class Data {
 
     public static void setPacmanY(int pacmanYNew) {
         pacmanY = pacmanYNew;
+    }
+
+    public static boolean isStarted() {
+        return started;
+    }
+
+    public static void setStarted(boolean started) {
+        Data.started = started;
     }
 }

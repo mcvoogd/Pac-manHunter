@@ -1,5 +1,7 @@
 package client;
 
+import util.Images;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,9 +29,10 @@ public class Main extends Canvas implements ActionListener{
 
     public Main(){
         new Data();
+        new Images();
         screen = Screen.MENU;
         menu = new MenuPanel(this);
-        client = new Client(this);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(menu);
         frame.pack();
@@ -77,6 +80,7 @@ public class Main extends Canvas implements ActionListener{
 
                 break;
             case CONNECT:
+                client = new Client(this);
                 frame.setContentPane(client.getConnectPanel());
                 System.out.println("SWITCH PANEL");
                 frame.repaint();

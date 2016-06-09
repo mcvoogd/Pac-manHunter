@@ -13,6 +13,7 @@ public class Character extends  Rectangle{
     private int speed = 1;
     private int directionX = 0, directionY = 0, newDirectionX = 0, newDirectionY = 0;
     private Tile[][] level;
+    private int imageNumber;
 
     public Character(int x, int y, int width, int height){
         super(x, y, width, height);
@@ -20,6 +21,18 @@ public class Character extends  Rectangle{
         this.y = y;
         this.width = width;
         this.height = height;
+        imageNumber = 16;
+    }
+
+    public Character(int x, int y, int width, int height, int player){
+        super(x, y, width, height);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        switch (player){
+            case 2: imageNumber = 12;
+        }
     }
 
     public void update(){
@@ -40,19 +53,19 @@ public class Character extends  Rectangle{
 
     public void render(Graphics2D g2d){
         if(directionX == 1){
-            g2d.drawImage(Images.spriteSheet.getSprite(17), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(imageNumber + 1), x, y, null);
         }
         if(directionX == -1){
-           g2d.drawImage(Images.spriteSheet.getSprite(16), x, y, null);
+           g2d.drawImage(Images.spriteSheet.getSprite(imageNumber), x, y, null);
         }
         if(directionY == 1){
-            g2d.drawImage(Images.spriteSheet.getSprite(19), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(imageNumber + 3), x, y, null);
         }
         if(directionY == -1){
-            g2d.drawImage(Images.spriteSheet.getSprite(18), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(imageNumber + 2), x, y, null);
         }
         if(directionX == 0 && directionY == 0){
-            g2d.drawImage(Images.spriteSheet.getSprite(17), x, y, null);
+            g2d.drawImage(Images.spriteSheet.getSprite(imageNumber + 1), x, y, null);
         }
         g2d.setColor(Color.WHITE);
 //        g2d.drawRect((int)getX(),(int) getY(),(int) getWidth(),(int) getHeight());

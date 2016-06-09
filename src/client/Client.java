@@ -10,7 +10,7 @@ public class Client{
 
     private GamePanel gamePanel;
     private ConnectPanel connectPanel;
-    private boolean start;
+    private boolean start = false;
     private Main main;
     private Reader reader;
 
@@ -18,7 +18,6 @@ public class Client{
 
     public Client(Main main){
         this.main = main;
-        new Images();
         reader = new Reader(this);
         new Thread(reader).start();
 
@@ -30,12 +29,12 @@ public class Client{
         if(start){
             gamePanel.update();
         }else{
-            boolean b = true;
-
+            boolean b = Data.isStarted();
             connectPanel.update();
             if(b){
                 System.out.println("START GAME");
                 connectPanel.switchPanel();
+                start();
             }
         }
     }
