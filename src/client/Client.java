@@ -66,8 +66,5 @@ public class Client{
         return connectPanel;
     }
 
-
-    public void setXPlayer(int xPlayer){     if(start){gamePanel.setPlayerX2(xPlayer);}}
-
 }
 

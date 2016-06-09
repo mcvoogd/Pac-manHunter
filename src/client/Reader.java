@@ -12,21 +12,6 @@ public class Reader implements Runnable {
     private DataInputStream fromServer;
     private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0, xPacman = 0, yPacman = 0;
 
-    private int testX;
-    public void setTestX(int testX){
-        this.testX = testX;
-        if(this.testX != -1000){
-            System.out.println("TEST X " + this.testX);
-        }
-
-    }
-
-    public int getTestX(){
-        return testX;
-    }
-
-
-
     public Reader(Client client){
         this.client = client;
         try {
@@ -102,29 +87,5 @@ public class Reader implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getyPacman() {
-        return yPacman;
-    }
-
-    public int getxPacman() {
-        return xPacman;
-    }
-
-//    public int getyPlayer2() {
-//        return yPlayer2;
-//    }
-//
-//    public int getxPlayer2() {
-//        return xPlayer2;
-//    }
-
-    public int getyPlayer2Server() {
-        return yPlayer2Server;
-    }
-
-    public int getxPlayer2Server() {
-        return xPlayer2Server;
     }
 }

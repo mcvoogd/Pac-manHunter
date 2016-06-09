@@ -18,21 +18,9 @@ public class GamePanel extends JPanel implements KeyListener{
     private Client client;
     private Reader reader;
     private Map map;
-    private int xPlayer2Server = 0, yPlayer2Server = 0, xPlayer2 = 0, yPlayer2 = 0, xPacman = 0, yPacman = 0;
     private boolean crazy = false;
 
     private Path path;
-    private boolean start = false;
-
-    private int playerX2;
-
-    public int getPlayerX2() {
-        return playerX2;
-    }
-
-    public void setPlayerX2(int playerX2) {
-        this.playerX2 = playerX2;
-    }
 
     public GamePanel(Client client, Reader reader){
         this.client = client;
@@ -56,15 +44,12 @@ public class GamePanel extends JPanel implements KeyListener{
         character = new Character(32, 32, 32, 32);
         player2 = new Character(32, 32, 32, 32);
         pacman = new Pacman();
-//        client.toServer((int)character.getX());
-//        client.toServer((int)character.getY());
         map = new Map();
         path = new Path(new Point(12,12), map);
         character.setLevel(map.getLevel());
         addKeyListener(this);
         setFocusable(true);
         requestFocus();
-        start = true;
     }
 
     public void update() {
@@ -91,7 +76,6 @@ public class GamePanel extends JPanel implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("KEY PRESSED");
         if(e.getKeyCode() == KeyEvent.VK_W){
             character.changeDirection(0, -1);
         }

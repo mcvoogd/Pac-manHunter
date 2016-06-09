@@ -8,7 +8,6 @@ public class Data {
     public static volatile int player2X, player2Y, pacmanX, pacmanY;
 
     public static int getPlayer2X() {
-        System.out.println("RETURN " + player2X);
         return player2X;
     }
 
