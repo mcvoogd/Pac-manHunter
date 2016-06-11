@@ -22,19 +22,38 @@ public class Pacman extends Rectangle {
     public void update(){
         int[][] offsets = { { -1, 0 }, { 0, -1 }, { 0, 1 }, { 1, 0 }, { 0, 0 } };
         int goodSide = 4;
-        int tileX = (int) (x / 32);
-        int tileY = (int) (y / 32);
-//        System.out.println(lastTileX + " : " + tileX);
+        int tileX = 0;
+        int tileY = 0;
+        switch (xDirection){
+            case 0:
+                tileX = x / 32;
+                break;
+            case -1:
+                tileX = (x + 16) / 32;
+                break;
+            case 1:
+                tileX = (x - 16) / 32;
+                break;
+        }
+        switch (yDirection){
+            case 0:
+                tileY = y / 32;
+                break;
+            case -1:
+                tileY = (y + 16) / 32;
+                break;
+            case 1:
+                tileY = (y - 16) / 32;
+                break;
+        }
+
         if (lastTileX != tileX || lastTileY != tileY) {
             lastTileX = tileX;
             lastTileY = tileY;
-//            System.out.println(tileX);
             int currentDistance = 9999999;
             if (path.getPath()[tileX][tileY] != null)
                 currentDistance = path.getPath()[tileX][tileY];
             tileValue = currentDistance;
-//            System.out.println(tileValue);
-            System.out.println(currentDistance);
             if(currentDistance == 0){
                 reached = true;
             }
@@ -72,11 +91,13 @@ public class Pacman extends Rectangle {
         }
         x += xDirection;
         y += yDirection;
-        setBounds(x, y, 32, 32);
+        setBounds(x -16, y -16, 32, 32);
     }
 
     public void render(Graphics2D g2){
-        g2.drawImage(Images.spriteSheet.getSprite(0), (int) getX(),(int) getY() - 32, null);
+        g2.drawImage(Images.spriteSheet.getSprite(0), (int) getX(), (int) getY(), null);
+        g2.setColor(Color.RED);
+        g2.fillRect(x, y, 1, 1);
     }
 
     public int getxDirection() {
@@ -116,7 +137,13 @@ public class Pacman extends Rectangle {
     }
 
     public void teleport(int x, int y){
-        setBounds(x, y, 32, 32);
+        setBounds(x -16, y -16, 32, 32);
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setPosition(int x, int y){
+        setBounds(x -16, y -16, 32, 32);
         this.x = x;
         this.y = y;
     }

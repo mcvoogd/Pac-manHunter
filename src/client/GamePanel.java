@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements KeyListener{
         g2d.drawString("Coordinates: " + Data.getPlayer2X() + " : " + player2.getY(), 0, 40);
         g2d.drawString("Score: " + Data.getScorePlayer1(), 0, 60);
         g2d.drawString("Opponent's Score: " + Data.getScorePlayer2(), 0, 80);
-//        path.paintPath(g2d);
+        path.paintPath(g2d);
     }
 
     public void start(){
@@ -49,10 +49,9 @@ public class GamePanel extends JPanel implements KeyListener{
         }else{
             player2 = new Character(32, 32, 32, 32, 1);
         }
-
         pacman = new Pacman();
         map = new Map();
-        path = new Path(new Point(12,12), map);
+        path = new Path(new Point(18, 1), map);
         character.setLevel(map.getLevel());
         addKeyListener(this);
         setFocusable(true);
@@ -73,12 +72,10 @@ public class GamePanel extends JPanel implements KeyListener{
         client.toServer(ytoSend);
         client.toServer(character.getDirectionX() + 7050);
         client.toServer(character.getDirectionY() + 8050);
+        pacman.setPosition(Data.getPacmanX(), Data.getPacmanY());
         player2.setLocation(Data.getPlayer2X(), Data.getPlayer2Y());
-        pacman.setLocation(Data.getPacmanX(), Data.getPacmanY());
         player2.setDirectionX(Data.getPlayerDirectionX());
-        System.out.println(Data.getPlayerDirectionX() + " : " + Data.getPlayerDirectionY());
         player2.setDirectionY(Data.getPlayerDirectionY());
-
     }
 
     @Override

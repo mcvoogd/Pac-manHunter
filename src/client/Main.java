@@ -32,7 +32,6 @@ public class Main extends Canvas implements ActionListener{
         new Images();
         screen = Screen.MENU;
         menu = new MenuPanel(this);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(menu);
         frame.pack();

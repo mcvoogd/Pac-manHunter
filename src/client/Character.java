@@ -69,14 +69,11 @@ public class Character extends  Rectangle{
             g2d.drawImage(Images.spriteSheet.getSprite(imageNumber + 1), x, y, null);
         }
         g2d.setColor(Color.WHITE);
-//        g2d.drawRect((int)getX(),(int) getY(),(int) getWidth(),(int) getHeight());
     }
 
     public boolean moveChar(int directionX, int directionY){
         int newX = x + directionX * speed;
         int newY = y +  directionY * speed;
-        int tileX = (y + 16)/32;
-        int tileY = (x + 16)/32;
         Rectangle rect = new Rectangle(newX, newY, width, height);
         boolean hit = false;
         for(int y = 0; y < level.length; y++){

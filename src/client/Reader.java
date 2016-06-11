@@ -38,7 +38,7 @@ public class Reader implements Runnable {
                         started = fromServer.readBoolean();
                         Data.setStarted(started);
                         Data.setPlayerNumber(fromServer.readInt());
-                        System.out.println(Data.getPlayerNumber());
+                        System.out.println("Player Number: " + Data.getPlayerNumber());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
