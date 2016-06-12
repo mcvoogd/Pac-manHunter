@@ -2,6 +2,7 @@ package client;
 
 import server.Pacman;
 import server.Path;
+import util.Images;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,12 +35,13 @@ public class GamePanel extends JPanel implements KeyListener{
         character.render(g2d);
         player2.render(g2d);
         pacman.render(g2d);
+        g2d.drawImage(Images.scoreBoard, 0, 0, null);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
-        g2d.drawString("Coordinates: " + Data.getPlayer2X() + " : " + player2.getY(), 0, 40);
-        g2d.drawString("Score: " + Data.getScorePlayer1(), 0, 60);
-        g2d.drawString("Opponent's Score: " + Data.getScorePlayer2(), 0, 80);
-        path.paintPath(g2d);
+//        g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
+//        g2d.drawString("Coordinates: " + Data.getPlayer2X() + " : " + player2.getY(), 0, 40);
+        g2d.drawString("Score: " + Data.getScorePlayer1(), 10, 20);
+        g2d.drawString("Opponent's Score: " + Data.getScorePlayer2(), 480, 20);
+//        path.paintPath(g2d);
     }
 
     public void start(){
@@ -51,7 +53,7 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         pacman = new Pacman();
         map = new Map();
-        path = new Path(new Point(18, 1), map);
+        path = new Path(new Point(1, 1), map);
         character.setLevel(map.getLevel());
         addKeyListener(this);
         setFocusable(true);

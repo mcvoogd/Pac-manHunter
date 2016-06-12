@@ -36,7 +36,7 @@ public class Path {
                 if(newPoint.x < 0 || newPoint.y < 0 || newPoint.x >= map.getTileX() || newPoint.y >=map.getTileY())
                     continue;
                 if(path[current.x][current.y] == null){
-                    path[current.x][current.y] = -1;
+                    path[current.x][current.y] = 0;
                 }
                 if(map.getLevel()[newPoint.y][newPoint.x] != null){
                         path[newPoint.x][newPoint.y] = 999;

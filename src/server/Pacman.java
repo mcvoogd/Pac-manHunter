@@ -1,10 +1,10 @@
 package server;
 
-import client.Tile;
+import client.Data;
 import util.Images;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 public class Pacman extends Rectangle {
 
@@ -12,11 +12,15 @@ public class Pacman extends Rectangle {
     private int x, y, lastTileX = 0, lastTileY = 0, tileValue;
     private Path path;
     private boolean reached;
+    private BufferedImage[] images;
+    private BufferedImage pacmanImage;
+    private int imageNumber, animateFrame, animateCounter;
 
     public Pacman(){
         super(32, 32, 32, 32);
         x = 32; y = 32;
-
+        cutImage();
+        pacmanImage = images[0];
     }
 
     public void update(){
@@ -92,12 +96,41 @@ public class Pacman extends Rectangle {
         x += xDirection;
         y += yDirection;
         setBounds(x -16, y -16, 32, 32);
+
     }
 
     public void render(Graphics2D g2){
-        g2.drawImage(Images.spriteSheet.getSprite(0), (int) getX(), (int) getY(), null);
-        g2.setColor(Color.RED);
-        g2.fillRect(x, y, 1, 1);
+
+        switch (Data.getPacmanDirectionX()){
+            case 1:
+                imageNumber = 0;
+                break;
+            case -1:
+                imageNumber = 6;
+                break;
+        }
+
+        switch (Data.getPacmanDirectionY()){
+            case 1:
+                imageNumber = 3;
+                break;
+            case -1:
+                imageNumber = 9;
+                break;
+        }
+        animateCounter++;
+        if(animateCounter > 5){
+            animateFrame++;
+            if(animateFrame > 2){
+                animateFrame = 0;
+            }
+            animateCounter = 0;
+        }
+
+        pacmanImage = images[imageNumber + animateFrame];
+        g2.drawImage(pacmanImage, (int) getX(), (int) getY(), null);
+
+
     }
 
     public int getxDirection() {
@@ -127,7 +160,6 @@ public class Pacman extends Rectangle {
     public void setPath(Path path){
         this.path = path;
         reached = false;
-        System.out.println(reached);
         lastTileX = 0;
         lastTileY = 0;
     }
@@ -146,5 +178,24 @@ public class Pacman extends Rectangle {
         setBounds(x -16, y -16, 32, 32);
         this.x = x;
         this.y = y;
+    }
+
+    private void cutImage(){
+        images = new BufferedImage[12];
+        for(int i = 0; i < 12; i++){
+            if(i == 0 || i == 1 || i == 2){
+                images[i] = Images.spriteSheet.getSprite(i);
+            }
+            if(i == 3 || i == 4 || i == 5){
+                images[i] = Images.spriteSheet.rotate(i-3, 90);
+            }
+            if(i == 6 || i == 7 || i == 8){
+                images[i] = Images.spriteSheet.getSpriteFlipped(i-6);
+            }
+            if(i == 9 || i == 10 || i == 11){
+                images[i] = Images.spriteSheet.rotate(i-9, 270);
+            }
+
+        }
     }
 }

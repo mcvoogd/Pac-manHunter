@@ -46,6 +46,40 @@ public class SpriteSheet {
 		return newImage;
 	}
 
+	public BufferedImage getSpriteFlippedVertical(int i) {
+		BufferedImage image = getSprite(i);
+		AffineTransform at = new AffineTransform();
+		at.concatenate(AffineTransform.getScaleInstance(1, -1));
+		at.concatenate(AffineTransform.getTranslateInstance(0, -image.getHeight()));
+		BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = newImage.createGraphics();
+		g.transform(at);
+		g.drawImage(image, 0, 0, null);
+		g.dispose();
+		return newImage;
+	}
+
+	public BufferedImage rotate(int i, double angle)
+	{
+		double sin = Math.abs(Math.sin(Math.toRadians(angle))),
+				cos = Math.abs(Math.cos(Math.toRadians(angle)));
+
+		int w = getSpriteWidth(), h = getSpriteHeight();
+
+		int newWidth = (int) Math.floor(w*cos + h*sin),
+				newHeight = (int) Math.floor(h*cos + w*sin);
+
+		BufferedImage newImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g =  newImage.createGraphics();
+
+		g.translate((newWidth-w)/2, (newHeight-h)/2);
+		g.rotate(Math.toRadians(angle), w/2, h/2);
+		g.drawRenderedImage(getSprite(i), null);
+		g.dispose();
+
+		return  newImage;
+	}
+
 	public BufferedImage getSprite(int x) {
 		int y = 0;
 

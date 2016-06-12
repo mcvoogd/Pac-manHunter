@@ -88,7 +88,12 @@ public class Reader implements Runnable {
                     Data.setPlayerDirectionX(read1 - 7050);
                 } else if(read1 - 8000 < 900){
                     Data.setPlayerDirectionY(read1 - 8050);
+                } else if(read1 - 10050 == 1 || read1 - 10050 == -1 || read1 - 10050 == 0) {
+                    Data.setPacmanDirectionX(read1 - 10050);
+                } else if(read1 - 11050 == 1 || read1 - 11050 == -1 || read1 - 11050 == 0) {
+                    Data.setPacmanDirectionY(read1 - 11050);
                 }
+
 
                 if (read2 - 2000 < 0) {
                     xPlayer2Server = read2 - 1000;
@@ -112,6 +117,12 @@ public class Reader implements Runnable {
                     Data.setPlayerDirectionX(read2 - 7050);
                 } else if(read2 - 8000 < 900){
                     Data.setPlayerDirectionY(read2 - 8050);
+                } else if(read2 - 10050 == 1 || read2 - 10050 == -1 || read2 - 10050 == 0) {
+                    Data.setPacmanDirectionX(read2 - 10050);
+                    System.out.println(read2);
+                } else if(read2 - 11050 == 1 || read2 - 11050 == -1 || read2 - 11050 == 0) {
+                    Data.setPacmanDirectionY(read2 - 11050);
+//                    System.out.println(read2);
                 }
             }
         }
@@ -124,4 +135,5 @@ public class Reader implements Runnable {
             e.printStackTrace();
         }
     }
+
 }

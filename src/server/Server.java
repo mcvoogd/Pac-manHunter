@@ -203,6 +203,14 @@ public class Server extends JFrame {
                     outputToClient2.writeInt(score1 + 1000);
                     outputToClient2.writeInt(score2 - 1000);
 
+                    int pacmanDirectionX = game.getPacman().getxDirection() + 10050;
+                    int pacmanDirectionY = game.getPacman().getyDirection() + 11050;
+                    outputToClient1.writeInt(pacmanDirectionX);
+                    outputToClient1.writeInt(pacmanDirectionY);
+                    outputToClient2.writeInt(pacmanDirectionX);
+                    outputToClient2.writeInt(pacmanDirectionY);
+
+
                 }
             }
             catch(IOException e) {
