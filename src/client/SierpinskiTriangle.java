@@ -1,6 +1,5 @@
-import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Point;
+package client;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,52 +10,28 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class SierpinskiTriangle extends JApplet {
-  private JTextField jtfOrder = new JTextField("0", 5); // Order
-  private SierpinskiTrianglePanel trianglePanel = 
-    new SierpinskiTrianglePanel(); // To display the pattern
-  
-  public SierpinskiTriangle() {
-    // Panel to hold label, text field, and a button
-    JPanel panel = new JPanel();
-    panel.add(new JLabel("Enter an order: "));
-    panel.add(jtfOrder);
-    jtfOrder.setHorizontalAlignment(SwingConstants.RIGHT);
-    
-    // Add a Sierpinski Triangle panel to the applet
-    add(trianglePanel);
-    add(panel, BorderLayout.SOUTH);
-    
-    // Register a listener
-    jtfOrder.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        trianglePanel.setOrder(Integer.parseInt(jtfOrder.getText()));
-      }
-    });
-  }
-  
-  static class SierpinskiTrianglePanel extends JPanel {
-    private int order = 0;
-    
-    /** Set a new order */
-    public void setOrder(int order) {
+public class SierpinskiTriangle{
+
+  private int order;
+
+  public SierpinskiTriangle(int order) {
       this.order = order;
-      repaint();
-    }
+  }
+
     
-    protected void paintComponent(Graphics g) {
-      super.paintComponent(g);
-      
+    protected void draw(Graphics g) {
+
       // Select three points in proportion to the panel size
-      Point p1 = new Point(getWidth() / 2, 10);
-      Point p2 = new Point(10, getHeight() - 10);
-      Point p3 = new Point(getWidth() - 10, getHeight() - 10);
+      Point p1 = new Point(312, 450);
+      Point p2 = new Point(156, 680);
+      Point p3 = new Point(468, 680);
       
       displayTriangles(g, order, p1, p2, p3);
     }
     
     private static void displayTriangles(Graphics g, int order,
         Point p1, Point p2, Point p3) {
+      g.setColor(Color.WHITE);
       if (order >= 0) {
         // Draw a triangle to connect three points
         g.drawLine(p1.x, p1.y, p2.x, p2.y);
@@ -80,14 +55,4 @@ public class SierpinskiTriangle extends JApplet {
     private static Point midpoint(Point p1, Point p2) {
       return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
     }
-  }
-
-  public static void main(String[] args) {
-    JFrame frame = new JFrame("SierpinskiTriangle");
-    SierpinskiTriangle applet = new SierpinskiTriangle();
-    frame.add(applet);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(400, 400);
-    frame.setVisible(true);
-  }
 }

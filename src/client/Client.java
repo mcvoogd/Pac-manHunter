@@ -4,7 +4,7 @@ import util.Images;
 
 import javax.swing.*;
 
-public class Client{
+public class Client implements Comparable{
 
     private JFrame frame;
 
@@ -13,16 +13,18 @@ public class Client{
     private boolean start = false;
     private Main main;
     private Reader reader;
-
+    private Thread read;
+    private int clientNumber;
 
 
     public Client(Main main){
         this.main = main;
         reader = new Reader(this);
-        new Thread(reader).start();
+        read = new Thread(reader);
+        read.start();
 
         connectPanel = new ConnectPanel(main);
-        gamePanel = new GamePanel(this, reader);
+        gamePanel = new GamePanel(this, reader, main);
     }
 
     public void update(){
@@ -65,5 +67,30 @@ public class Client{
         return connectPanel;
     }
 
+    public void stopRead(){
+        System.out.println("Stop read");
+        read.interrupt();
+    }
+
+    public void setClientNumber(int clientNumber) {
+        this.clientNumber = clientNumber;
+    }
+
+    public int getClientNumber() {
+        return clientNumber;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof Client){
+            if(clientNumber > ((Client) o).getClientNumber()){
+                return 1;
+            }
+            if(clientNumber == ((Client) o).getClientNumber()){
+                return 0;
+            }
+        }
+        return -1;
+    }
 }
 

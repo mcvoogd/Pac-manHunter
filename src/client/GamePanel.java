@@ -22,26 +22,48 @@ public class GamePanel extends JPanel implements KeyListener{
     private boolean crazy = false;
 
     private Path path;
+    private boolean won, finished;
+    private Main main;
+    private SierpinskiTriangle triangle;
 
-    public GamePanel(Client client, Reader reader){
+    public GamePanel(Client client, Reader reader, Main main){
         this.client = client;
         this.reader = reader;
+        this.main = main;
+        triangle = new SierpinskiTriangle(5);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        map.draw(g2d);
-        character.render(g2d);
-        player2.render(g2d);
-        pacman.render(g2d);
-        g2d.drawImage(Images.scoreBoard, 0, 0, null);
-        g2d.setColor(Color.WHITE);
+        if(!finished) {
+            map.draw(g2d);
+            if(character.compareTo(player2) > 0){
+                character.render(g2d);
+                player2.render(g2d);
+            }else{
+                player2.render(g2d);
+                character.render(g2d);
+            }
+
+            pacman.render(g2d);
+            g2d.drawImage(Images.scoreBoard, 0, 0, null);
+            g2d.setColor(Color.WHITE);
 //        g2d.drawString("Coordinates: " + character.getX() + " : " + character.getY(), 0, 20);
 //        g2d.drawString("Coordinates: " + Data.getPlayer2X() + " : " + player2.getY(), 0, 40);
-        g2d.drawString("Score: " + Data.getScorePlayer1(), 10, 20);
-        g2d.drawString("Opponent's Score: " + Data.getScorePlayer2(), 480, 20);
+            g2d.drawString("Score: " + Data.getScorePlayer1(), 10, 20);
+            g2d.drawString("Opponent's Score: " + Data.getScorePlayer2(), 480, 20);
 //        path.paintPath(g2d);
+        }else{
+            if(won){
+                g2d.drawImage(Images.won, 0, 0, null);
+                triangle.draw(g2d);
+            }else{
+                g2d.drawImage(Images.lose, 0, 0, null);
+                triangle.draw(g2d);
+            }
+        }
+
     }
 
     public void start(){
@@ -78,6 +100,16 @@ public class GamePanel extends JPanel implements KeyListener{
         player2.setLocation(Data.getPlayer2X(), Data.getPlayer2Y());
         player2.setDirectionX(Data.getPlayerDirectionX());
         player2.setDirectionY(Data.getPlayerDirectionY());
+        if(Data.getWinner() != 0){
+            System.out.println("Winner: " + Data.getWinner());
+            finished = true;
+            if(Data.getWinner() == Data.getPlayerNumber()){
+                won = true;
+
+            }else{
+                won = false;
+            }
+        }
     }
 
     @Override
@@ -104,6 +136,12 @@ public class GamePanel extends JPanel implements KeyListener{
         }
         client.toServer((int)character.getX());
         client.toServer((int)character.getY());
+        if(finished){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                client.stopRead();
+                main.switchScreen(Main.Screen.MENU);
+            }
+        }
     }
 
     @Override

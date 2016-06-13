@@ -15,6 +15,7 @@ public class Reader implements Runnable {
 
     public Reader(Client client){
         this.client = client;
+        System.out.println("NEW READER");
         try {
             Socket socket = new Socket("localhost", 8000);
 
@@ -37,7 +38,9 @@ public class Reader implements Runnable {
                     if (fromServer.available() > 0) {
                         started = fromServer.readBoolean();
                         Data.setStarted(started);
-                        Data.setPlayerNumber(fromServer.readInt());
+                        int number = fromServer.readInt();
+                        Data.setPlayerNumber(number);
+                        client.setClientNumber(number);
                         System.out.println("Player Number: " + Data.getPlayerNumber());
                     }
                 } catch (IOException e) {
@@ -92,6 +95,8 @@ public class Reader implements Runnable {
                     Data.setPacmanDirectionX(read1 - 10050);
                 } else if(read1 - 11050 == 1 || read1 - 11050 == -1 || read1 - 11050 == 0) {
                     Data.setPacmanDirectionY(read1 - 11050);
+                }else if(read1 - 14000 < 0){
+                Data.setWinner(read1 - 13000);
                 }
 
 
@@ -119,10 +124,11 @@ public class Reader implements Runnable {
                     Data.setPlayerDirectionY(read2 - 8050);
                 } else if(read2 - 10050 == 1 || read2 - 10050 == -1 || read2 - 10050 == 0) {
                     Data.setPacmanDirectionX(read2 - 10050);
-                    System.out.println(read2);
                 } else if(read2 - 11050 == 1 || read2 - 11050 == -1 || read2 - 11050 == 0) {
                     Data.setPacmanDirectionY(read2 - 11050);
 //                    System.out.println(read2);
+                }else if(read2 - 14000 < 0){
+                    Data.setWinner(read2 - 13000);
                 }
             }
         }
@@ -135,5 +141,4 @@ public class Reader implements Runnable {
             e.printStackTrace();
         }
     }
-
 }

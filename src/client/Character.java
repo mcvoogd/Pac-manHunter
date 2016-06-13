@@ -7,13 +7,13 @@ import java.awt.*;
 /**
  * Created by Harmen on 18-5-2016.
  */
-public class Character extends  Rectangle{
+public class Character extends  Rectangle implements Comparable{
 
     private int x, y, width, height;
     private int speed = 1;
     private int directionX = 0, directionY = 0, newDirectionX = 0, newDirectionY = 0;
     private Tile[][] level;
-    private int imageNumber;
+    private int imageNumber, playerNumber;
 
     public Character(int x, int y, int width, int height){
         super(x, y, width, height);
@@ -130,5 +130,20 @@ public class Character extends  Rectangle{
 
     public void setDirectionY(int directionY) {
         this.directionY = directionY;
+    }
+
+    public int getPlayerNumber() {return playerNumber;}
+
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof Character){
+            if(playerNumber > ((Character) o).getPlayerNumber()){
+                return 1;
+            }
+            if(playerNumber == ((Character) o).getPlayerNumber()){
+                return 0;
+            }
+        }
+        return -1;
     }
 }

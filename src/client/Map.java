@@ -50,6 +50,10 @@ public class Map {
         g2.drawImage(map, 0, 0, null);
     }
 
+    public void reset(){
+        paintLevel();
+    }
+
     public void update(){
         for(int y = 0; y < tileY; y++) {
             for (int x = 0; x < tileX; x++) {

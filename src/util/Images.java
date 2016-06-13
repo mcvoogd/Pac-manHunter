@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Images {
 
-    public static BufferedImage map, start, connecting, won, scoreBoard;
+    public static BufferedImage map, start, connecting, won, lose, scoreBoard;
     public static SpriteSheet wall;
     public static SpriteSheet spriteSheet, loading_sprite;
 
@@ -18,6 +18,7 @@ public class Images {
         start = readImage("/start.png");
         connecting = readImage("/connecting.png");
         won = readImage("/won.png");
+        lose = readImage("/lose.png");
         loading_sprite = new SpriteSheet("loading_sprite", 509 ,64 );
         scoreBoard = readImage("/scoreBoard.png");
     }

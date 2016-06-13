@@ -210,6 +210,12 @@ public class Server extends JFrame {
                     outputToClient2.writeInt(pacmanDirectionX);
                     outputToClient2.writeInt(pacmanDirectionY);
 
+                    if(game.isFinished()){
+                        int winner = game.getWinner() + 13000;
+                        outputToClient1.writeInt(winner);
+                        outputToClient2.writeInt(winner);
+                    }
+
 
                 }
             }

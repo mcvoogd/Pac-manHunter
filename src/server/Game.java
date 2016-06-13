@@ -16,8 +16,8 @@ public class Game {
     private Pacman pacman;
     private Path path;
     private Character player1, player2;
-    private int scorePlayer1, scorePlayer2;
-    private boolean player1Hit, player2Hit;
+    private int scorePlayer1, scorePlayer2, winner;
+    private boolean player1Hit, player2Hit, finished;
     private Path[] paths;
 
     public Game(){
@@ -29,7 +29,7 @@ public class Game {
         paths[2] = new Path(new Point(1, 20), map);
         paths[3] = new Path(new Point(1, 1), map);
         pacman.setPath(paths[(int)(Math.random() *3)]);
-        pacman.teleport((32* 9) + 16, (32 * 10) + 16);
+        pacman.teleport((32* 10), (32 * 11));
         player1 = new Character(32, 32, 32, 32);
         player2 = new Character(32, 32, 32, 32);
         Timer timer = new Timer(1000/60, e -> { pacman.update();});
@@ -39,23 +39,35 @@ public class Game {
 
     public void update() {
         if(pacman.isReached()){
-            pacman.setPath(paths[(int)(Math.random() *3)]);
+            pacman.setPath(paths[(int)(Math.random() * (paths.length - 1))]);
         }
         if(player1.intersects(pacman) && !player1Hit){
+            System.out.println("PLAYER 1 HIT");
             scorePlayer1++;
-            pacman.teleport((32* 9) + 16, (32 * 10) + 16);
-            pacman.setPath(paths[(int)(Math.random() * 4)]);
+            pacman.teleport((32* 10), (32 * 11) - 2);
+            pacman.setPath(paths[(int)(Math.random() * (paths.length - 1))]);
             player1Hit = true;
         }else if(!player1.intersects(pacman)){
             player1Hit = false;
         }
         if(player2.intersects(pacman) && !player2Hit){
+            System.out.println("PLAYER 2 HIT");
             scorePlayer2++;
-            pacman.teleport((32* 9) + 16, (32 * 10) + 16);
-            pacman.setPath(paths[(int)(Math.random() * 4)]);
+            pacman.teleport((32* 10), (32 * 11) - 2);
+            pacman.setPath(paths[(int)(Math.random() * (paths.length - 1))]);
             player2Hit = true;
         }else if(!player2.intersects(pacman)){
             player2Hit = false;
+        }
+
+        if(scorePlayer1 >= 10 || scorePlayer2 >= 10){
+            finished = true;
+            System.out.println("FINISHED");
+            if(scorePlayer1 >= 10){
+                winner = 1;
+            }else{
+                winner = 2;
+            }
         }
     }
 
@@ -75,5 +87,13 @@ public class Game {
 
     public int getScorePlayer2() {
         return scorePlayer2;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public int getWinner() {
+        return winner;
     }
 }

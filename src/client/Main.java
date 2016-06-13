@@ -69,7 +69,9 @@ public class Main extends Canvas implements ActionListener{
     public void switchScreen(Screen screen){
         this.screen = screen;
         switch (screen){
-            case MENU: frame.setContentPane(menu); break;
+            case MENU: frame.setContentPane(menu);
+                client.stopRead();
+                break;
             case GAME:
                 client.start();
                 frame.setContentPane(client.getGamePanel());

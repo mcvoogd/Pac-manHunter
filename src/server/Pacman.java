@@ -162,6 +162,7 @@ public class Pacman extends Rectangle {
         reached = false;
         lastTileX = 0;
         lastTileY = 0;
+        System.out.println("NEW PATH");
     }
 
     public boolean isReached() {
@@ -170,14 +171,18 @@ public class Pacman extends Rectangle {
 
     public void teleport(int x, int y){
         setBounds(x -16, y -16, 32, 32);
-        this.x = x;
-        this.y = y;
+        this.x = x - 16;
+        this.y = y - 16;
+        reached = false;
+        lastTileX = 0;
+        lastTileY = 0;
+        System.out.println("TELEPORT");
     }
 
     public void setPosition(int x, int y){
         setBounds(x -16, y -16, 32, 32);
-        this.x = x;
-        this.y = y;
+        this.x = x - 16;
+        this.y = y - 16;
     }
 
     private void cutImage(){
