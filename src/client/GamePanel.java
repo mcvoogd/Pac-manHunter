@@ -109,6 +109,9 @@ public class GamePanel extends JPanel implements KeyListener{
             }else{
                 won = false;
             }
+            Data.setWinner(0);
+            Data.setStarted(false);
+            new Data();
         }
     }
 
