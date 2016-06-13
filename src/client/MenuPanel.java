@@ -21,7 +21,8 @@ public class MenuPanel extends JPanel implements KeyListener{
     }
 
     public void update(){
-
+        setFocusable(true);
+        requestFocus();
     }
 
     public void paintComponent(Graphics g){

@@ -68,6 +68,8 @@ public class Game {
             }else{
                 winner = 2;
             }
+            scorePlayer1 = 0;
+            scorePlayer2 = 0;
         }
     }
 
